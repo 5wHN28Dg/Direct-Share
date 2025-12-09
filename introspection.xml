@@ -1,0 +1,111 @@
+('
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"\n                      "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">\n
+<!-- GDBus 2.86.0 -->\n
+<node>\n
+	<interface name="org.freedesktop.DBus.Properties">\n
+		<method name="Get">\n
+			<arg type="s" name="interface_name" direction="in"/>\n
+			<arg type="s" name="property_name" direction="in"/>\n
+			<arg type="v" name="value" direction="out"/>\n
+		</method>\n
+		<method name="GetAll">\n
+			<arg type="s" name="interface_name" direction="in"/>\n
+			<arg type="a{sv}" name="properties" direction="out"/>\n
+		</method>\n
+		<method name="Set">\n
+			<arg type="s" name="interface_name" direction="in"/>\n
+			<arg type="s" name="property_name" direction="in"/>\n
+			<arg type="v" name="value" direction="in"/>\n
+		</method>\n
+		<signal name="PropertiesChanged">\n
+			<arg type="s" name="interface_name"/>\n
+			<arg type="a{sv}" name="changed_properties"/>\n
+			<arg type="as" name="invalidated_properties"/>\n
+		</signal>\n
+	</interface>\n
+	<interface name="org.freedesktop.DBus.Introspectable">\n
+		<method name="Introspect">\n
+			<arg type="s" name="xml_data" direction="out"/>\n
+		</method>\n
+	</interface>\n
+	<interface name="org.freedesktop.DBus.Peer">\n
+		<method name="Ping"/>\n
+		<method name="GetMachineId">\n
+			<arg type="s" name="machine_uuid" direction="out"/>\n
+		</method>\n
+	</interface>\n
+	<interface name="org.freedesktop.NetworkManager.Device.Statistics">\n
+		<property type="u" name="RefreshRateMs" access="readwrite"/>\n
+		<property type="t" name="TxBytes" access="read"/>\n
+		<property type="t" name="RxBytes" access="read"/>\n
+	</interface>\n
+	<interface name="org.freedesktop.NetworkManager.Device.WifiP2P">\n
+		<method name="StartFind">\n
+			<arg type="a{sv}" name="options" direction="in"/>\n
+		</method>\n
+		<method name="StopFind"/>\n
+		<signal name="PeerAdded">\n
+			<arg type="o" name="peer"/>\n
+		</signal>\n
+		<signal name="PeerRemoved">\n
+			<arg type="o" name="peer"/>\n
+		</signal>\n
+		<property type="s" name="HwAddress" access="read">\n
+			<annotation name="org.freedesktop.DBus.Deprecated" value="true"/>\n
+		</property>\n
+		<property type="ao" name="Peers" access="read"/>\n
+	</interface>\n
+	<interface name="org.freedesktop.NetworkManager.Device">\n
+		<method name="Reapply">\n
+			<arg type="a{sa{sv}}" name="connection" direction="in"/>\n
+			<arg type="t" name="version_id" direction="in"/>\n
+			<arg type="u" name="flags" direction="in"/>\n
+		</method>\n
+		<method name="GetAppliedConnection">\n
+			<arg type="u" name="flags" direction="in"/>\n
+			<arg type="a{sa{sv}}" name="connection" direction="out"/>\n
+			<arg type="t" name="version_id" direction="out"/>\n
+		</method>\n
+		<method name="Disconnect"/>\n
+		<method name="Delete"/>\n
+		<signal name="StateChanged">\n
+			<arg type="u" name="new_state"/>\n
+			<arg type="u" name="old_state"/>\n
+			<arg type="u" name="reason"/>\n
+		</signal>\n
+		<property type="s" name="Udi" access="read"/>\n
+		<property type="s" name="Path" access="read"/>\n
+		<property type="s" name="Interface" access="read"/>\n
+		<property type="s" name="IpInterface" access="read"/>\n
+		<property type="s" name="Driver" access="read"/>\n
+		<property type="s" name="DriverVersion" access="read"/>\n
+		<property type="s" name="FirmwareVersion" access="read"/>\n
+		<property type="u" name="Capabilities" access="read"/>\n
+		<property type="u" name="Ip4Address" access="read">\n
+			<annotation name="org.freedesktop.DBus.Deprecated" value="true"/>\n
+		</property>\n
+		<property type="u" name="State" access="read"/>\n
+		<property type="(uu)" name="StateReason" access="read"/>\n
+		<property type="o" name="ActiveConnection" access="read"/>\n
+		<property type="o" name="Ip4Config" access="read"/>\n
+		<property type="o" name="Dhcp4Config" access="read"/>\n
+		<property type="o" name="Ip6Config" access="read"/>\n
+		<property type="o" name="Dhcp6Config" access="read"/>\n
+		<property type="b" name="Managed" access="readwrite"/>\n
+		<property type="b" name="Autoconnect" access="readwrite"/>\n
+		<property type="b" name="FirmwareMissing" access="read"/>\n
+		<property type="b" name="NmPluginMissing" access="read"/>\n
+		<property type="u" name="DeviceType" access="read"/>\n
+		<property type="ao" name="AvailableConnections" access="read"/>\n
+		<property type="s" name="PhysicalPortId" access="read"/>\n
+		<property type="u" name="Mtu" access="read"/>\n
+		<property type="u" name="Metered" access="read"/>\n
+		<property type="aa{sv}" name="LldpNeighbors" access="read"/>\n
+		<property type="b" name="Real" access="read"/>\n
+		<property type="u" name="Ip4Connectivity" access="read"/>\n
+		<property type="u" name="Ip6Connectivity" access="read"/>\n
+		<property type="u" name="InterfaceFlags" access="read"/>\n
+		<property type="s" name="HwAddress" access="read"/>\n
+		<property type="ao" name="Ports" access="read"/>\n
+	</interface>\n
+</node>\n',)
