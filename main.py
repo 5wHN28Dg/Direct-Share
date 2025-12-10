@@ -8,25 +8,51 @@ async def main():
     bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
     # the introspection xml would normally be included in your project, but
     # this is convenient for development
-
+    """
     introspection = await bus.introspect(
         "org.freedesktop.NetworkManager",
-        "/org/freedesktop/NetworkManager/Devices/5",
+        "/org/freedesktop/NetworkManager/Devices/7",
     )
     print(introspection)
 
     obj = bus.get_proxy_object(
         "org.freedesktop.NetworkManager",
-        "/org/freedesktop/NetworkManager/Devices/5",
+        "/org/freedesktop/NetworkManager/Devices/7",
         introspection,
     )
     interface = obj.get_interface("org.freedesktop.NetworkManager.Device")
     properties = obj.get_interface("org.freedesktop.DBus.Properties")
 
+    # this is just a test, will be removed later
     var = await properties.call_get(
         "org.freedesktop.NetworkManager.Device", "Interface"
     )
     print(var.value)
+    """
+    introspection = await bus.introspect(
+        "org.freedesktop.NetworkManager", "/org/freedesktop/NetworkManager"
+    )
+
+    service_obj = bus.get_proxy_object(
+        "org.freedesktop.NetworkManager",
+        "/org/freedesktop/NetworkManager",
+        introspection,
+    )
+    interface = service_obj.get_interface("org.freedesktop.NetworkManager")
+    properties = service_obj.get_interface("org.freedesktop.DBus.Properties")
+
+    # this is just a test, will be removed later
+    devices_list = await properties.call_get(
+        "org.freedesktop.NetworkManager", "Devices"
+    )
+
+    for device in devices_list.value:
+        device_obj = bus.get_proxy_object(
+            "org.freedesktop.NetworkManager",
+            device,
+            introspection,
+        )
+        if
 
 
 asyncio.run(main())
