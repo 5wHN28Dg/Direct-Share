@@ -43,7 +43,7 @@ async def find_wifi_p2p_peers():
     device_interface = device_obj.get_interface(
         "org.freedesktop.NetworkManager.Device.WifiP2P"
     )
-    await device_interface.call_start_find(Variant("a{sv}", {}))
+    await device_interface.call_start_find({})
     print("Found WiFiP2P peers:", await device_interface.get_peers())
 
 
