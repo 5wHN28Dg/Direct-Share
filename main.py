@@ -41,7 +41,6 @@ async def main():
     interface = service_obj.get_interface("org.freedesktop.NetworkManager")
     properties = service_obj.get_interface("org.freedesktop.DBus.Properties")
 
-    # this is just a test, will be removed later
     devices_list = await properties.call_get(
         "org.freedesktop.NetworkManager", "Devices"
     )
@@ -50,9 +49,14 @@ async def main():
         device_obj = bus.get_proxy_object(
             "org.freedesktop.NetworkManager",
             device,
-            introspection,
+            await bus.introspect("org.freedesktop.NetworkManager", device),
         )
-        if
+        device_interface = device_obj.get_interface(
+            "org.freedesktop.NetworkManager.Device"
+        )
+        if await device_interface.get_device_type() == 30:
+            print("Found WiFiP2P device, it is:", device)
+            break
 
 
 asyncio.run(main())
