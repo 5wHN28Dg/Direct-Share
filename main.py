@@ -36,15 +36,15 @@ async def main():
         if await device_interface.get_device_type() == 30:
             print("Found WiFiP2P device, it is:", device, "you are good to go")
             break
+    await find_wifi_p2p_peers()
 
 
 async def find_wifi_p2p_peers():
-    global device_obj
     device_interface = device_obj.get_interface(
-        "org.freedesktop.NetworkManager.Device.WiFiP2P"
+        "org.freedesktop.NetworkManager.Device.WifiP2P"
     )
-    find_peers = await device_interface.call_start_find()
-    print("Found WiFiP2P peers:", find_peers)
+    await device_interface.call_start_find(Variant("a{sv}", {}))
+    print("Found WiFiP2P peers:", await device_interface.get_peers())
 
 
 asyncio.run(main())
