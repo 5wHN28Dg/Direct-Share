@@ -5,6 +5,7 @@ from dbus_fast.aio import MessageBus
 
 
 async def main():
+    global bus
     bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
     # the introspection xml would normally be included in your project, but
     # this is convenient for development
@@ -23,6 +24,7 @@ async def main():
     devices = await interface.get_devices()
 
     for device in devices:
+        global device_obj
         device_obj = bus.get_proxy_object(
             "org.freedesktop.NetworkManager",
             device,
@@ -32,8 +34,17 @@ async def main():
             "org.freedesktop.NetworkManager.Device"
         )
         if await device_interface.get_device_type() == 30:
-            print("Found WiFiP2P device, it is:", device)
+            print("Found WiFiP2P device, it is:", device, "you are good to go")
             break
+
+
+async def find_wifi_p2p_peers():
+    global device_obj
+    device_interface = device_obj.get_interface(
+        "org.freedesktop.NetworkManager.Device.WiFiP2P"
+    )
+    find_peers = await device_interface.call_start_find()
+    print("Found WiFiP2P peers:", find_peers)
 
 
 asyncio.run(main())
