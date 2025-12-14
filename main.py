@@ -1,8 +1,19 @@
 import asyncio
+import threading
 
 import dearpygui.dearpygui as dpg
-from dbus_fast import BusType, Variant
+from dbus_fast import BusType
 from dbus_fast.aio import MessageBus
+
+async_loop = asyncio.new_event_loop()
+
+
+def start_async_loop(loop):
+    asyncio.set_event_loop(loop)
+    loop.run_forever()
+
+
+threading.Thread(target=start_async_loop, args=(async_loop,), daemon=True).start()
 
 
 async def main():
@@ -47,7 +58,17 @@ async def find_wifi_p2p_peers():
     # print("Found WiFiP2P peers:", await device_interface.get_peers())
 
 
-asyncio.run(main())
+def search_callback():
+    future = asyncio.run_coroutine_threadsafe(find_wifi_p2p_peers(), async_loop)
+
+
+def changed_notify(new_value):
+    print(f"The new value is: {new_value}")
+
+
+# device_interface.on_peer_added(changed_notify)
+
+asyncio.run_coroutine_threadsafe(main(), async_loop)
 dpg.create_context()
 
 # add a font registry
@@ -57,15 +78,17 @@ with dpg.font_registry():
 
 dpg.create_viewport(title="Direct Share", width=1280, height=720)
 
-with dpg.window(label="Example Window", no_title_bar=True, tag="fullscreen"):
+with dpg.window(label="Example Window", no_title_bar=True, tag="Main Window"):
     dpg.bind_font(default_font)
-    dpg.add_text("Hello, world")
-    dpg.add_button(label="search for peers", callback=find_wifi_p2p_peers)
-    dpg.add_input_text(label="string", default_value="Quick brown fox")
-    dpg.add_slider_float(label="float", default_value=0.273, max_value=1)
+    dpg.add_button(label="search for peers", callback=search_callback)
+    dpg.add_listbox(
+        items=["item1", "item2", "item3"], callback=lambda: print("peer selected")
+    )
+    # dpg.add_button(label="Click me", callback=lambda: print("Button clicked"))
+    # dpg.add_button(label="Exit", callback=lambda: dpg.stop_dearpygui())
 
 dpg.setup_dearpygui()
-dpg.set_primary_window("fullscreen", True)
+dpg.set_primary_window("Main Window", True)
 dpg.show_viewport()
 dpg.start_dearpygui()
 dpg.destroy_context()
