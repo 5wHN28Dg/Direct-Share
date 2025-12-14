@@ -51,10 +51,12 @@ async def main():
 
 
 async def find_wifi_p2p_peers():
+    global device_interface
     device_interface = device_obj.get_interface(
         "org.freedesktop.NetworkManager.Device.WifiP2P"
     )
     device_interface.on_peer_added(changed_notify)
+    device_interface.on_peer_removed(changed_notify)
     await device_interface.call_start_find({})
     # print("Found WiFiP2P peers:", await device_interface.get_peers())
 
@@ -63,8 +65,17 @@ def search_callback():
     future = asyncio.run_coroutine_threadsafe(find_wifi_p2p_peers(), async_loop)
 
 
+def peers_list_callback():
+    async def update_peers_list():
+        peers = await device_interface.get_peers()
+        dpg.configure_item("Peer List", items=peers)
+
+    asyncio.run_coroutine_threadsafe(update_peers_list(), async_loop)
+
+
 def changed_notify(new_value):
     print(f"The new value is: {new_value}")
+    peers_list_callback()
 
 
 asyncio.run_coroutine_threadsafe(main(), async_loop)
@@ -80,9 +91,7 @@ dpg.create_viewport(title="Direct Share", width=1280, height=720)
 with dpg.window(label="Example Window", no_title_bar=True, tag="Main Window"):
     dpg.bind_font(default_font)
     dpg.add_button(label="search for peers", callback=search_callback)
-    dpg.add_listbox(
-        items=["item1", "item2", "item3"], callback=lambda: print("peer selected")
-    )
+    dpg.add_listbox(items=[], callback=lambda: print("peer selected"), tag="Peer List")
     # dpg.add_button(label="Click me", callback=lambda: print("Button clicked"))
     # dpg.add_button(label="Exit", callback=lambda: dpg.stop_dearpygui())
 
