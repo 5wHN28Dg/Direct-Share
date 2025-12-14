@@ -54,6 +54,7 @@ async def find_wifi_p2p_peers():
     device_interface = device_obj.get_interface(
         "org.freedesktop.NetworkManager.Device.WifiP2P"
     )
+    device_interface.on_peer_added(changed_notify)
     await device_interface.call_start_find({})
     # print("Found WiFiP2P peers:", await device_interface.get_peers())
 
@@ -65,8 +66,6 @@ def search_callback():
 def changed_notify(new_value):
     print(f"The new value is: {new_value}")
 
-
-# device_interface.on_peer_added(changed_notify)
 
 asyncio.run_coroutine_threadsafe(main(), async_loop)
 dpg.create_context()
