@@ -60,6 +60,9 @@ async def find_wifi_p2p_peers():
     await device_interface.call_start_find({})
     # print("Found WiFiP2P peers:", await device_interface.get_peers())
 
+async def connect_to_peer(app_data):
+
+
 
 def search_callback():
     future = asyncio.run_coroutine_threadsafe(find_wifi_p2p_peers(), async_loop)
@@ -73,8 +76,20 @@ def peers_list_callback():
     asyncio.run_coroutine_threadsafe(update_peers_list(), async_loop)
 
 
+def callback(sender, app_data):
+    print("OK was clicked.")
+    print("Sender: ", sender)
+    print("App Data: ", app_data)
+
+
+def cancel_callback(sender, app_data):
+    print("Cancel was clicked.")
+    print("Sender: ", sender)
+    print("App Data: ", app_data)
+
+
 def changed_notify(new_value):
-    print(f"The new value is: {new_value}")
+    print(f"The new peer: {new_value}")
     peers_list_callback()
 
 
@@ -91,10 +106,28 @@ dpg.create_viewport(title="Direct Share", width=1280, height=720)
 with dpg.window(label="Example Window", no_title_bar=True, tag="Main Window"):
     dpg.bind_font(default_font)
     dpg.add_button(label="search for peers", callback=search_callback)
-    dpg.add_listbox(items=[], callback=lambda: print("peer selected"), tag="Peer List")
+    dpg.add_listbox(items=[], callback=lambda: print(item), tag="Peer List")
     # dpg.add_button(label="Click me", callback=lambda: print("Button clicked"))
     # dpg.add_button(label="Exit", callback=lambda: dpg.stop_dearpygui())
-
+    with dpg.file_dialog(
+        show=False,
+        callback=callback,
+        tag="file_dialog_id",
+        cancel_callback=cancel_callback,
+        width=1280,
+        height=720,
+    ):
+        dpg.add_file_extension(".*")
+        dpg.add_file_extension("", color=(150, 255, 150, 255))
+        dpg.add_file_extension(
+            "Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp}", color=(0, 255, 255, 255)
+        )
+        dpg.add_file_extension(".h", color=(255, 0, 255, 255), custom_text="[header]")
+        dpg.add_file_extension(".py", color=(0, 255, 0, 255), custom_text="[Python]")
+    dpg.add_button(
+        label="file Selector", callback=lambda: dpg.show_item("file_dialog_id")
+    )
+    dpg.add_button(label="send")
 dpg.setup_dearpygui()
 dpg.set_primary_window("Main Window", True)
 dpg.show_viewport()
