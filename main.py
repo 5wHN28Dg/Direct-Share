@@ -1,8 +1,9 @@
 import asyncio
 import threading
+import uuid
 
 import dearpygui.dearpygui as dpg
-from dbus_fast import BusType
+from dbus_fast import BusType, Variant
 from dbus_fast.aio import MessageBus
 
 async_loop = asyncio.new_event_loop()
@@ -14,6 +15,8 @@ def start_async_loop(loop):
 
 
 threading.Thread(target=start_async_loop, args=(async_loop,), daemon=True).start()
+
+peer = ""
 
 
 async def main():
@@ -30,8 +33,8 @@ async def main():
         "/org/freedesktop/NetworkManager",
         introspection,
     )
+    global interface
     interface = service_obj.get_interface("org.freedesktop.NetworkManager")
-    # properties = service_obj.get_interface("org.freedesktop.DBus.Properties")
 
     devices = await interface.get_devices()
 
@@ -58,10 +61,6 @@ async def find_wifi_p2p_peers():
     device_interface.on_peer_added(changed_notify)
     device_interface.on_peer_removed(changed_notify)
     await device_interface.call_start_find({})
-    # print("Found WiFiP2P peers:", await device_interface.get_peers())
-
-
-# async def connect_to_peer(app_data):
 
 
 def search_callback():
@@ -76,12 +75,55 @@ def peers_list_callback():
     asyncio.run_coroutine_threadsafe(update_peers_list(), async_loop)
 
 
+def connect_callback(sender, app_data):
+    # global peer
+
+    async def connect_to_peer(peer_path):
+        """Asynchronously initiates a Wi-Fi P2P connection to a selected peer."""
+        # For AddAndActivateConnection2, we need to create a transient connection
+        # profile. This dictionary defines the new connection.
+        connection_settings = {
+            "connection": {
+                "id": Variant("s", "Direct Share P2P"),
+                "uuid": Variant("s", str(uuid.uuid4())),
+                "type": Variant("s", "wifi-p2p"),
+            }
+        }
+        print(device_obj.path, "\n", peer_path)
+
+        try:
+            print(f"Attempting to connect to peer: {peer_path}")
+            # The call requires the connection settings, the object path of the
+            # P2P-capable device, the object path of the peer, and any options.
+            (
+                path,
+                active_connection,
+                result,
+            ) = await interface.call_add_and_activate_connection2(
+                connection_settings, device_obj.path, peer_path, {}
+            )
+            print("Successfully initiated connection.")
+            print(f"  Connection Path: {path}")
+            print(f"  Active Connection: {active_connection}")
+            print(f"  Result: {result}")
+        except Exception as e:
+            # Catch and print any exceptions during the connection attempt.
+            print(f"Error connecting to peer: {e}")
+
+    # Ensure a peer is selected before trying to connect.
+    if peer:
+        asyncio.run_coroutine_threadsafe(connect_to_peer(peer), async_loop)
+    else:
+        print("No peer selected.")
+
+
 def callback(sender, app_data):
     print("OK was clicked.")
     print("Sender: ", sender)
     print("App Data: ", app_data)
 
     if sender == "Peer List":
+        global peer
         peer = app_data
 
 
@@ -130,7 +172,7 @@ with dpg.window(label="Example Window", no_title_bar=True, tag="Main Window"):
     dpg.add_button(
         label="file Selector", callback=lambda: dpg.show_item("file_dialog_id")
     )
-    dpg.add_button(label="connect")
+    dpg.add_button(label="connect", callback=connect_callback)
     dpg.add_button(label="send")
 dpg.setup_dearpygui()
 dpg.set_primary_window("Main Window", True)
