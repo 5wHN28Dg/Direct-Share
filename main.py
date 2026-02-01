@@ -89,7 +89,6 @@ def connect_callback(sender, app_data):
                 "type": Variant("s", "wifi-p2p"),
             }
         }
-        print(device_obj.path, "\n", peer_path)
 
         try:
             print(f"Attempting to connect to peer: {peer_path}")
@@ -100,7 +99,10 @@ def connect_callback(sender, app_data):
                 active_connection,
                 result,
             ) = await interface.call_add_and_activate_connection2(
-                connection_settings, device_obj.path, peer_path, {}
+                connection_settings,
+                device_obj.path,
+                peer_path,
+                {"persist": Variant("s", "volatile")},
             )
             print("Successfully initiated connection.")
             print(f"  Connection Path: {path}")
@@ -152,8 +154,7 @@ with dpg.window(label="Example Window", no_title_bar=True, tag="Main Window"):
     dpg.bind_font(default_font)
     dpg.add_button(label="search for peers", callback=search_callback)
     dpg.add_listbox(items=[], callback=callback, tag="Peer List", show=False)
-    # dpg.add_button(label="Click me", callback=lambda: print("Button clicked"))
-    # dpg.add_button(label="Exit", callback=lambda: dpg.stop_dearpygui())
+
     with dpg.file_dialog(
         show=False,
         callback=callback,
