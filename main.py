@@ -53,18 +53,17 @@ async def main():
             break
 
 
-async def find_wifi_p2p_peers():
-    global device_interface
-    device_interface = device_obj.get_interface(
-        "org.freedesktop.NetworkManager.Device.WifiP2P"
-    )
-    device_interface.on_peer_added(changed_notify)
-    device_interface.on_peer_removed(changed_notify)
-    await device_interface.call_start_find({})
-
-
 def search_callback():
-    future = asyncio.run_coroutine_threadsafe(find_wifi_p2p_peers(), async_loop)
+    async def find_wifi_p2p_peers():
+        global device_interface
+        device_interface = device_obj.get_interface(
+            "org.freedesktop.NetworkManager.Device.WifiP2P"
+        )
+        device_interface.on_peer_added(changed_notify)
+        device_interface.on_peer_removed(changed_notify)
+        await device_interface.call_start_find({})
+
+    asyncio.run_coroutine_threadsafe(find_wifi_p2p_peers(), async_loop)
 
 
 def peers_list_callback():
@@ -76,8 +75,6 @@ def peers_list_callback():
 
 
 def connect_callback(sender, app_data):
-    # global peer
-
     async def connect_to_peer(peer_path):
         """Asynchronously initiates a Wi-Fi P2P connection to a selected peer."""
         # For AddAndActivateConnection2, we need to create a transient connection
