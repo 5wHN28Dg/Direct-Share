@@ -43,6 +43,32 @@ Direct-Share aims to be a simple tool that makes local file transfer feel as sea
 ### UX
 - [ ] UI/UX is still rough and will change significantly
 
+## Running
+
+1. clone the repository
+
+```bash
+git clone https://github.com/5wHN28Dg/direct-share.git
+cd direct-share
+```
+2. create a virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. run the application:
+
+```bash
+python3 main.py
+```
 
 ## Roadmap (planned features)
 
