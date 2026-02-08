@@ -1,17 +1,19 @@
 # Direct-Share
 An Android/Linux app to share files quickly and conveniently using Wi-Fi Direct
 
-this project is still in research / experimentation / concept exploration, as I am still:
-- exploring how things work.
-- testing concepts.
-- writing isolated code snippets.
-- and don’t yet have a working prototype or even an initial internal build.
+this project is still in the pre-alpha (early development) stage so it is still missing many critical features, check issue tracker and milestones for current status.
 
-## Features:
-- as simple as it can get: right click on a file then select "share via Direct-Share"* or open the app, select a file, select the device you want to share with, click share then wait for the other device to accept the connection, and then enjoy your shared file!
-- as fast as it can get: no hotspot, no local network, no internet connection required, aka no middleman, just the old and the good and unfortunately forgotten Wi-Fi Direct.
 
-## Acknowledgments:
+## what currently works (and what doesn't):
+- [ ] connection: 
+    - [ ] connecting 2 linux machines
+    - [x] connecting a linux machine to an android device (built-in Wi-Fi Direct settings)
+    - [ ] connecting an android device to another android device
+- [ ] file transfer
+    - [ ] android to linux
+    - [ ] linux to android
+
+## technical details:
 - the selection of Dear PyGui as the GUI framework was inspired by Zed's HW accelerated GUI.
 - [D-Spy](https://gitlab.gnome.org/GNOME/d-spy) for making it easy to inspect D-Bus services.
 - thanks to whoever wrote this great [article on D-Bus](https://0pointer.net/blog/the-new-sd-bus-api-of-systemd.html).
