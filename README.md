@@ -6,7 +6,6 @@ Fast local file sharing between **Android and Linux** using **Wi-Fi Direct (P2P)
 > This project is under active early development. Many core features are missing or incomplete.
 > Expect breakage and unfinished UX.
 
----
 
 ## Why this exists
 
@@ -18,7 +17,6 @@ Direct-Share aims to be a simple tool that makes local file transfer feel as sea
 
 …but for **Linux desktops and Android phones**, using **Wi-Fi Direct** (no router required).
 
----
 
 ## Goals
 
@@ -27,7 +25,6 @@ Direct-Share aims to be a simple tool that makes local file transfer feel as sea
 - Works across **Linux ↔ Android**
 - Simple UI: pick device → pick file → send
 
----
 
 ## Current status (what works / what doesn't)
 
@@ -43,7 +40,6 @@ Direct-Share aims to be a simple tool that makes local file transfer feel as sea
 ### UX
 - [ ] UI/UX is still rough and will change significantly
 
----
 
 ## Roadmap (planned features)
 
@@ -55,7 +51,6 @@ Direct-Share aims to be a simple tool that makes local file transfer feel as sea
 - Android app (kotlin / jetpack compose)
 - Packaging (deb / rpm / Flatpak / AppImage)
 
----
 
 ## Technical overview
 
@@ -65,7 +60,6 @@ Direct-Share currently relies on Linux Wi-Fi Direct support through:
 
 The Linux GUI is currently built using **Dear PyGui**.
 
----
 
 ## Useful tools / references
 
@@ -76,7 +70,6 @@ The Linux GUI is currently built using **Dear PyGui**.
   [wifi-p2p.py](https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/blob/main/examples/python/gi/wifi-p2p.py)
 - [dbus-fast](https://github.com/Bluetooth-Devices/dbus-fast)
 
----
 
 ## Contributing
 
@@ -88,7 +81,6 @@ Contributions are welcome, especially in:
 
 If you're interested, check the issue tracker and milestones.
 
----
 
 ## License
 
