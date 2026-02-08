@@ -15,7 +15,7 @@ Direct-Share aims to be a simple tool that makes local file transfer feel as sea
 - Android ↔ Android (Nearby Share / Quick Share)
 - Apple AirDrop
 
-…but for **Linux desktops and Android phones**, using **Wi-Fi Direct** (no router required).
+…but for **Linux desktops and Android phones**, using **Wi-Fi Direct** (no hotspot required).
 
 
 ## Goals
@@ -25,6 +25,9 @@ Direct-Share aims to be a simple tool that makes local file transfer feel as sea
 - Works across **Linux ↔ Android**
 - Simple UI: pick device → pick file → send
 
+## Non-goals
+- Bluetooth-based or wifi hotspot transfer
+- official support for other operating systems
 
 ## Current status (what works / what doesn't)
 
@@ -48,8 +51,8 @@ Direct-Share aims to be a simple tool that makes local file transfer feel as sea
 - Real file transfer implementation (progress bar, speed, ETA)
 - Multi-file support
 - Resume/cancel transfers
-- Android app (kotlin / jetpack compose)
-- Packaging (deb / rpm / Flatpak / AppImage)
+- Android app (Kotlin / Jetpack Compose)
+- Packaging (deb / Flatpak)
 
 
 ## Technical overview
