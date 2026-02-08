@@ -26,7 +26,7 @@ Direct-Share aims to be a simple tool that makes local file transfer feel as sea
 - Simple UI: pick device → pick file → send
 
 ## Non-goals
-- Bluetooth-based or wifi hotspot transfer
+- Bluetooth or wifi AP based transfer
 - official support for other operating systems
 
 ## Current status (what works / what doesn't)
@@ -52,14 +52,14 @@ Direct-Share aims to be a simple tool that makes local file transfer feel as sea
 - Multi-file support
 - Resume/cancel transfers
 - Android app (Kotlin / Jetpack Compose)
-- Packaging (deb / Flatpak)
+- Packaging (deb / Flatpak / APK)
 
 
 ## Technical overview
 
 Direct-Share currently relies on Linux Wi-Fi Direct support through:
-- **NetworkManager**
-- **D-Bus**
+- **NetworkManager D-Bus API**
+- **wpa_supplicant D-Bus API**
 
 The Linux GUI is currently built using **Dear PyGui**.
 
