@@ -2,6 +2,8 @@
 
 Fast local file sharing between **Android and Linux** using **Wi-Fi Direct (P2P)**.
 
+![pre-alpha demo_9-2-2026](./pre-alpha_demo_9-2-2026.gif)
+
 > ⚠️ **Project status: Pre-Alpha**
 > This project is under active early development. Many core features are missing or incomplete.
 > Expect breakage and unfinished UX.
