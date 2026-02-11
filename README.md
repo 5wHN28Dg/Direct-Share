@@ -22,7 +22,7 @@ Direct-Share aims to be a simple tool that makes local file transfer more seamle
 
 ## Goals
 
-- **Fast local file transfers** without internet
+- **Fast local file transfers** without the middleman
 - **No accounts, no cloud, no pairing nonsense**
 - Works across **Linux ↔ Android**
 - Simple UI: pick device → pick file → send
