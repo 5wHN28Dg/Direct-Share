@@ -13,7 +13,7 @@ Fast local file sharing between **Android and Linux** using **Wi-Fi Direct (P2P)
 
 File sharing between Android and Linux is still unnecessarily annoying.
 
-Direct-Share aims to be a simple tool that makes local file transfer feel as seamless as:
+Direct-Share aims to be a simple tool that makes local file transfer more seamless than:
 - Android ↔ Android (Nearby Share / Quick Share)
 - Apple AirDrop
 
