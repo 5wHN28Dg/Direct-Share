@@ -1,11 +1,12 @@
-async def main():
-    global bus
-    bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
-    # the introspection xml would normally be included in your project, but
-    # this is convenient for development
-    introspection = await bus.introspect(
-        "org.freedesktop.NetworkManager", "/org/freedesktop/NetworkManager"
-    )
+class NMClient:
+    async def main():
+        global bus
+        bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
+        # the introspection xml would normally be included in your project, but
+        # this is convenient for development
+        introspection = await bus.introspect(
+            "org.freedesktop.NetworkManager", "/org/freedesktop/NetworkManager"
+        )
 
     service_obj = bus.get_proxy_object(
         "org.freedesktop.NetworkManager",

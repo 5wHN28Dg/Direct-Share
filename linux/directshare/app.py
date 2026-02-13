@@ -1,9 +1,16 @@
-async_loop = asyncio.new_event_loop()
+import asyncio
+
+import gi
+from gi.events import GLibEventLoopPolicy
+from gi.repository import Adw
+
+from .ui import DirectShareApp
+
+gi.require_version("Gtk", "4.2.3")
+gi.require_version("Adw", "1.8.1")
 
 
-def start_async_loop(loop):
-    asyncio.set_event_loop(loop)
-    loop.run_forever()
-
-
-threading.Thread(target=start_async_loop, args=(async_loop,), daemon=True).start()
+def run():
+    asyncio.set_event_loop_policy(GLibEventLoopPolicy())
+    app = DirectShareApp(application_id="io.directshare.App")
+    app.run(None)
