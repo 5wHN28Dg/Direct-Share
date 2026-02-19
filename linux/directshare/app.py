@@ -1,13 +1,13 @@
 import asyncio
 
 import gi
+
+gi.require_version("Gtk", "4.0")
+gi.require_version("Adw", "1")
 from gi.events import GLibEventLoopPolicy
 from gi.repository import Adw
 
 from .ui import DirectShareApp
-
-gi.require_version("Gtk", "4.2.3")
-gi.require_version("Adw", "1.8.1")
 
 
 def run():
