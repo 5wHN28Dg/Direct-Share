@@ -16,7 +16,7 @@ class DirectShareApp(Adw.Application):
         win.set_title("Direct-Share")
         win.set_default_size(900, 600)
 
-        header = Adw.HeaderBar()
+        # header = Adw.HeaderBar()
         # win.set_titlebar(header)
 
         # Just a placeholder so you see something
