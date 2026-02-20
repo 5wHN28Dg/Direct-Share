@@ -1,0 +1,4 @@
+[dependency-groups]
+dev = [
+    "pygobject-stubs>=2.16.0",
+]

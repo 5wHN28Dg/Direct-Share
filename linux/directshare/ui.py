@@ -12,7 +12,7 @@ class DirectShareApp(Adw.Application):
         self.connect("activate", self.on_activate)
 
     def on_activate(self, app: "DirectShareApp"):
-        win = Adw.ApplicationWindow(application=app)
+        win = Adw.ApplicationWindow(application=app, resizable=True)
         win.set_title("DirectShare")
         win.set_default_size(900, 600)
 
