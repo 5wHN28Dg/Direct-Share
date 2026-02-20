@@ -1,3 +1,12 @@
+[project]
+name = "direct-share"
+version = "0.0.1"
+dependencies = [
+    "dbus-fast>=4.0.0",
+    "pycairo>=1.29.0",
+    "pygobject>=3.54.5",
+]
+
 [dependency-groups]
 dev = [
     "pygobject-stubs>=2.16.0",
