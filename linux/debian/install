@@ -1,1 +1,3 @@
 scripts/direct-share usr/bin/
+debian/direct-share.desktop usr/share/applications/
+assets/icon.png usr/share/icons/hicolor/256x256/apps/direct-share.png

@@ -1,0 +1,24 @@
+Source: direct-share
+Section: utils
+Priority: optional
+Maintainer: Your Name <you@example.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-python,
+ python3-all,
+ pybuild-plugin-pyproject
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+
+Package: direct-share
+Architecture: all
+Depends:
+ ${python3:Depends},
+ ${misc:Depends},
+ python3-gi,
+ python3-cairo,
+ gir1.2-gtk-3.0,
+ # add runtime system deps you actually need:
+ # networkmanager, wpasupplicant, polkit, etc (depending on your design)
+Description: Direct-Share for Linux
+ Share files over Wi-Fi Direct (Linux frontend + helper).

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Direct-Share
+Exec=direct-share
+Icon=direct-share
+Categories=Utility;
+Terminal=false
