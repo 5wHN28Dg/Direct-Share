@@ -8,27 +8,49 @@ Fast local file sharing between **Android and Linux** using **Wi-Fi Direct (P2P)
 > This project is under active early development. Many core features are missing or incomplete.
 > Expect breakage and unfinished UX.
 
+## Philosophy
+
+This project is built primarily for my own use.
+
+I work on it when I need something, want to improve something, or feel like exploring an idea. 
+It is not driven by external demand, feature requests, or a public roadmap.
+
+You're welcome to use it, learn from it, and contribute if you find it useful.
+
+However:
+
+- There are no guarantees of support
+- There are no timelines or deadlines
+- Feature requests may be ignored
+- The direction of the project is decided solely by me
+
+If you need something specific, feel free to open a PR and implement it.
+
+Donations are appreciated but do not grant influence over the project.
+
+This project is a personal tool first, public software second.
+
 
 ## Why this exists
 
 File sharing between Android and Linux is still unnecessarily annoying.
 
-Direct-Share aims to be a simple tool that makes local file transfer more seamless than:
+Direct-Share is an attempt to build a file transfer tool that makes local file transfer more seamless than:
 - Android ↔ Android (Nearby Share / Quick Share)
 - Apple AirDrop
 
-…but for **Linux desktops and Android phones**, using **Wi-Fi Direct** (no hotspot required).
+…but for **Linux desktops and Android phones**, using **Wi-Fi Direct**.
 
 
 ## Goals
 
 - **Fast local file transfers** without the middleman
 - **No accounts, no cloud, no pairing nonsense**
-- Works across **Linux ↔ Android**
-- Simple UI: pick device → pick file → send
-
+- Linux ↔ Android as first-class citizens
+- Minimal, focused UI: pick device → pick file → send
+- 
 ## Non-goals
-- Bluetooth or wifi AP based transfer
+- Bluetooth or Wi-Fi AP based transfer
 - official support for other operating systems
 
 ## Current status (what works / what doesn't)
@@ -104,13 +126,7 @@ The Linux GUI is currently built using **Dear PyGui**.
 
 ## Contributing
 
-Contributions are welcome, especially in:
-- Wi-Fi Direct connection flow
-- D-Bus integration
-- Android-side implementation
-- UI/UX cleanup
-
-If you're interested, check the issue tracker and milestones.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening issues or pull requests.
 
 
 ## License
