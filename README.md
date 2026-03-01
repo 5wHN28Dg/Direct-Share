@@ -48,7 +48,7 @@ Direct-Share is an attempt to build a file transfer tool that makes local file t
 - **No accounts, no cloud, no pairing nonsense**
 - Linux ↔ Android as first-class citizens
 - Minimal, focused UI: pick device → pick file → send
-- 
+
 ## Non-goals
 - Bluetooth or Wi-Fi AP based transfer
 - official support for other operating systems
