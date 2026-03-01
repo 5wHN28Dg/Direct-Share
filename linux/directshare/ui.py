@@ -19,11 +19,12 @@ class DirectShareApp(Adw.Application):
         win.set_title("Direct-Share")
         win.set_default_size(900, 600)
 
-        # header = Adw.HeaderBar()
-        # win.set_titlebar(header)
+        header = Adw.HeaderBar()
 
-        # Just a placeholder so you see something
-        label = Gtk.Label(label="DirectShare is running ✅")
-        win.set_content(label)
+        view = Adw.ToolbarView()
+        view.add_top_bar(header)
+
+        view.set_content(Gtk.Label(label="DirectShare is running ✅"))
+        win.set_content(view)
 
         win.present()
