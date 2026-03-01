@@ -113,7 +113,7 @@ Direct-Share currently relies on Linux Wi-Fi Direct support through:
 - **NetworkManager D-Bus API**
 - **wpa_supplicant D-Bus API**
 
-The Linux GUI is currently built using **Dear PyGui**.
+The Linux GUI is currently being migrated from **Dear PyGui** to **GTK4**.
 
 
 ## Useful tools / references
