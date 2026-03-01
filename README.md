@@ -82,16 +82,16 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-3. Install dependencies:
+3. Install the project:
 
 ```bash
-pip install -r requirements.txt
+pip install -e . # this installs the project in editable mode
 ```
 
 4. run the application:
 
 ```bash
-python3 main.py
+python3 -m directshare
 ```
 
 ## Roadmap (planned features)
