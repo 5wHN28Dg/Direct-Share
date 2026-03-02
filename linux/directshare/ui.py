@@ -24,7 +24,7 @@ class DirectShareApp(Adw.Application):
         view = Adw.ToolbarView()
         view.add_top_bar(header)
 
-        view.set_content(Gtk.Label(label="DirectShare is running ✅"))
+        view.set_content(Gtk.Label(label="Direct-Share is running ✅"))
         win.set_content(view)
 
         win.present()
