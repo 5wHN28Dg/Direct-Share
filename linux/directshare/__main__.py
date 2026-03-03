@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 Hashim Al-Moussawi
+# SPDX-FileCopyrightText: 2026 5wHN28Dg
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from .app import run

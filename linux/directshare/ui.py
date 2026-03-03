@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 Hashim Al-Moussawi
+# SPDX-FileCopyrightText: 2026 5wHN28Dg
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import gi
@@ -24,6 +24,7 @@ class DirectShareApp(Adw.Application):
         view = Adw.ToolbarView()
         view.add_top_bar(header)
 
+        navigation = Adw.NavigationView()
         view.set_content(Gtk.Label(label="Direct-Share is running ✅"))
         win.set_content(view)
 
