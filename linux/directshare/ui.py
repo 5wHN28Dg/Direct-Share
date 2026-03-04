@@ -1,7 +1,10 @@
 # SPDX-FileCopyrightText: 2026 5wHN28Dg
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+"""Handles All the UI components of the application."""
+
 import gi
+from gi.repository.GObject import BindingFlags, GObject
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
@@ -47,11 +50,18 @@ class DirectShareApp(Adw.Application):
         settings_page = self.build_settings_page()
 
         self.stack.add_titled(main_page, "main", "Main")
-        self.stack.add_titled(trusted_page, "trusted", "Trusted")
+        self.stack.add_titled(trusted_page, "trusted", "Trusted Devices")
         self.stack.add_titled(settings_page, "settings", "Settings")
+
+        title = Adw.ViewSwitcherTitle()
+        title.set_stack(self.stack)
+        header.set_title_widget(title)
 
         switcher = Adw.ViewSwitcherBar()
         switcher.set_stack(self.stack)
+        title.bind_property(
+            "title-visible", switcher, "reveal", BindingFlags.SYNC_CREATE
+        )
 
         view.add_top_bar(header)
         view.add_bottom_bar(switcher)
