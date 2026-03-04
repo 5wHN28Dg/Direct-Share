@@ -14,6 +14,19 @@ class DirectShareApp(Adw.Application):
         super().__init__(application_id=application_id)
         self.connect("activate", self.on_activate)
 
+    def build_main_page(self):
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        # will add widgets here
+        return box
+
+    def build_trusted_page(self):
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        return box
+
+    def build_settings_page(self):
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        return box
+
     def on_activate(self, app: "DirectShareApp"):
         win = Adw.ApplicationWindow(application=app, resizable=True)
         win.set_title("Direct-Share")
@@ -22,10 +35,24 @@ class DirectShareApp(Adw.Application):
         header = Adw.HeaderBar()
 
         view = Adw.ToolbarView()
+        self.stack = Adw.ViewStack()
+        self.stack.set_vexpand(True)
+
+        # Build pages
+        main_page = self.build_main_page()
+        trusted_page = self.build_trusted_page()
+        settings_page = self.build_settings_page()
+
+        self.stack.add_titled(main_page, "main", "Main")
+        self.stack.add_titled(trusted_page, "trusted", "Trusted")
+        self.stack.add_titled(settings_page, "settings", "Settings")
+
+        switcher = Adw.ViewSwitcherBar()
+        switcher.set_stack(self.stack)
+
         view.add_top_bar(header)
 
-        navigation = Adw.NavigationView()
-        view.set_content(Gtk.Label(label="Direct-Share is running ✅"))
+        # view.set_content(Gtk.Label(label="Direct-Share is running ✅"))
         win.set_content(view)
 
         win.present()
