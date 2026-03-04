@@ -16,15 +16,18 @@ class DirectShareApp(Adw.Application):
 
     def build_main_page(self):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        box.append(Gtk.Label(label="Main Page"))
         # will add widgets here
         return box
 
     def build_trusted_page(self):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        box.append(Gtk.Label(label="Trusted Devices"))
         return box
 
     def build_settings_page(self):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        box.append(Gtk.Label(label="Settings"))
         return box
 
     def on_activate(self, app: "DirectShareApp"):
@@ -51,6 +54,8 @@ class DirectShareApp(Adw.Application):
         switcher.set_stack(self.stack)
 
         view.add_top_bar(header)
+        view.add_bottom_bar(switcher)
+        view.set_content(self.stack)
 
         # view.set_content(Gtk.Label(label="Direct-Share is running ✅"))
         win.set_content(view)
