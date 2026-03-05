@@ -4,7 +4,8 @@
 """Handles All the UI components of the application."""
 
 import gi
-from gi.repository.GObject import BindingFlags, GObject
+
+# from gi.repository.GObject import
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
@@ -19,7 +20,7 @@ class DirectShareApp(Adw.Application):
 
     def build_main_page(self):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-        box.append(Gtk.Label(label="Main Page"))
+        box.append(Gtk.Label(label="Direct-Share is running ✅"))
         # will add widgets here
         return box
 
@@ -49,25 +50,27 @@ class DirectShareApp(Adw.Application):
         trusted_page = self.build_trusted_page()
         settings_page = self.build_settings_page()
 
-        self.stack.add_titled(main_page, "main", "Main")
+        self.stack.add_titled(main_page, "main", "Transfer Files")
         self.stack.add_titled(trusted_page, "trusted", "Trusted Devices")
         self.stack.add_titled(settings_page, "settings", "Settings")
 
-        title = Adw.ViewSwitcherTitle()
-        title.set_stack(self.stack)
-        header.set_title_widget(title)
+        top_switcher = Adw.ViewSwitcher()
+        top_switcher.set_stack(self.stack)
+        top_switcher.set_policy(Adw.ViewSwitcherPolicy.WIDE)
+        header.set_title_widget(top_switcher)
 
         switcher = Adw.ViewSwitcherBar()
         switcher.set_stack(self.stack)
-        title.bind_property(
-            "title-visible", switcher, "reveal", BindingFlags.SYNC_CREATE
-        )
 
         view.add_top_bar(header)
         view.add_bottom_bar(switcher)
         view.set_content(self.stack)
-
-        # view.set_content(Gtk.Label(label="Direct-Share is running ✅"))
         win.set_content(view)
+
+        # Breakpoint fires when window width drops below 550sp
+        bp = Adw.Breakpoint.new(Adw.BreakpointCondition.parse("max-width: 550sp"))
+        bp.add_setter(top_switcher, "visible", False)
+        bp.add_setter(switcher, "reveal", True)
+        win.add_breakpoint(bp)
 
         win.present()
