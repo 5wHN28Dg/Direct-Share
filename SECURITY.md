@@ -2,7 +2,7 @@
 
 Only the latest version provided through official distribution channels is supported with security updates.
 
-If you discover a security issue, please report it privately by by filling out this form:
+If you discover a security issue, please report it privately by filling out this form:
 
 https://github.com/5wHN28Dg/Direct-Share/security/advisories/new
 
