@@ -5,8 +5,6 @@
 
 import gi
 
-# from gi.repository.GObject import
-
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
@@ -67,7 +65,7 @@ class DirectShareApp(Adw.Application):
         view.set_content(self.stack)
         win.set_content(view)
 
-        # Breakpoint fires when window width drops below 550sp
+        # Break point fires when window width drops below 550sp
         bp = Adw.Breakpoint.new(Adw.BreakpointCondition.parse("max-width: 550sp"))
         bp.add_setter(top_switcher, "visible", False)
         bp.add_setter(switcher, "reveal", True)
