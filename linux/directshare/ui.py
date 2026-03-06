@@ -33,24 +33,29 @@ class DirectShareApp(Adw.Application):
         return box
 
     def on_activate(self, app: "DirectShareApp"):
+        # Set up main app window
         win = Adw.ApplicationWindow(application=app, resizable=True)
         win.set_title("Direct Share")
         win.set_default_size(900, 600)
 
         header = Adw.HeaderBar()
-
         view = Adw.ToolbarView()
         self.stack = Adw.ViewStack()
         self.stack.set_vexpand(True)
 
-        # Build pages
         main_page = self.build_main_page()
         trusted_page = self.build_trusted_page()
         settings_page = self.build_settings_page()
 
-        self.stack.add_titled(main_page, "main", "Transfer Files")
-        self.stack.add_titled(trusted_page, "trusted", "Trusted Devices")
-        self.stack.add_titled(settings_page, "settings", "Settings")
+        self.stack.add_titled_with_icon(
+            main_page, "main", "Transfer Files", "mail-send-receive-symbolic"
+        )
+        self.stack.add_titled_with_icon(
+            trusted_page, "trusted", "Trusted Devices", "computer-symbolic"
+        )
+        self.stack.add_titled_with_icon(
+            settings_page, "settings", "Settings", "applications-system-symbolic"
+        )
 
         top_switcher = Adw.ViewSwitcher()
         top_switcher.set_stack(self.stack)
@@ -71,9 +76,10 @@ class DirectShareApp(Adw.Application):
         view.add_top_bar(header)
         view.add_bottom_bar(switcher)
         view.set_content(self.stack)
+
         win.set_content(view)
 
-        # Break point fires when window width drops below 550sp
+        # Break point fires to switch between top and bottom switcher bars based on window width
         bp = Adw.Breakpoint.new(Adw.BreakpointCondition.parse("max-width: 550sp"))
         bp.add_setter(top_switcher, "visible", False)
         bp.add_setter(window_title, "visible", True)
