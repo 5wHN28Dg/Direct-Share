@@ -34,7 +34,7 @@ class DirectShareApp(Adw.Application):
 
     def on_activate(self, app: "DirectShareApp"):
         win = Adw.ApplicationWindow(application=app, resizable=True)
-        win.set_title("Direct-Share")
+        win.set_title("Direct Share")
         win.set_default_size(900, 600)
 
         header = Adw.HeaderBar()
@@ -55,7 +55,15 @@ class DirectShareApp(Adw.Application):
         top_switcher = Adw.ViewSwitcher()
         top_switcher.set_stack(self.stack)
         top_switcher.set_policy(Adw.ViewSwitcherPolicy.WIDE)
-        header.set_title_widget(top_switcher)
+
+        window_title = Adw.WindowTitle(title="Direct Share")
+        window_title.set_visible(False)
+
+        title_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        title_box.append(window_title)
+        title_box.append(top_switcher)
+
+        header.set_title_widget(title_box)
 
         switcher = Adw.ViewSwitcherBar()
         switcher.set_stack(self.stack)
@@ -68,6 +76,7 @@ class DirectShareApp(Adw.Application):
         # Break point fires when window width drops below 550sp
         bp = Adw.Breakpoint.new(Adw.BreakpointCondition.parse("max-width: 550sp"))
         bp.add_setter(top_switcher, "visible", False)
+        bp.add_setter(window_title, "visible", True)
         bp.add_setter(switcher, "reveal", True)
         win.add_breakpoint(bp)
 
