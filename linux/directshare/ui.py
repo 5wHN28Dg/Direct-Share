@@ -32,6 +32,21 @@ class DirectShareApp(Adw.Application):
         box.append(Gtk.Label(label="Settings"))
         return box
 
+    def build_about_dialog(self):
+        about_dialog = Adw.AboutDialog()
+        about_dialog.set_application_name("Direct Share")
+        about_dialog.set_developer_name("5wHN28Dg")
+        about_dialog.set_issue_url(
+            "https://github.com/5wHN28Dg/Direct-Share/issues/new/choose"
+        )
+        about_dialog.set_support_url(
+            "https://github.com/5wHN28Dg/Direct-Share/discussions"
+        )
+        about_dialog.set_website("https://github.com/5wHN28Dg/Direct-Share")
+        about_dialog.set_license_type(Gtk.License.GPL_3_0)
+        about_dialog.set_version("0.0.1")
+        return about_dialog
+
     def on_activate(self, app: "DirectShareApp"):
         # Set up main app window
         win = Adw.ApplicationWindow(application=app, resizable=True)
@@ -46,6 +61,7 @@ class DirectShareApp(Adw.Application):
         main_page = self.build_main_page()
         trusted_page = self.build_trusted_page()
         settings_page = self.build_settings_page()
+        about_dialog = self.build_about_dialog()
 
         self.stack.add_titled_with_icon(
             main_page, "main", "Transfer Files", "mail-send-receive-symbolic"
@@ -64,9 +80,13 @@ class DirectShareApp(Adw.Application):
         window_title = Adw.WindowTitle(title="Direct Share")
         window_title.set_visible(False)
 
+        about_button = Gtk.Button(icon_name="help-about-symbolic")
+        about_button.connect("clicked", lambda _: about_dialog.present(win))
+
         title_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         title_box.append(window_title)
         title_box.append(top_switcher)
+        title_box.append(about_button)
 
         header.set_title_widget(title_box)
 
