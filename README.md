@@ -124,13 +124,3 @@ The Linux GUI is currently being migrated from **Dear PyGui** to **GTK4**.
 - NetworkManager Wi-Fi Direct example:
   [wifi-p2p.py](https://gitlab.freedesktop.org/NetworkManager/NetworkManager/-/blob/main/examples/python/gi/wifi-p2p.py)
 - [dbus-fast](https://github.com/Bluetooth-Devices/dbus-fast)
-
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening issues or pull requests.
-
-
-## License
-
-this project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details.
