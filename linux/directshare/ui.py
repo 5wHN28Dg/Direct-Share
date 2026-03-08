@@ -39,9 +39,12 @@ class DirectShareApp(Adw.Application):
             issue_url="https://github.com/5wHN28Dg/Direct-Share/issues/new/choose",
             support_url="https://github.com/5wHN28Dg/Direct-Share/discussions",
             website="https://github.com/5wHN28Dg/Direct-Share",
-            copyright="© 2024 5wHN28Dg",
+            copyright="© 2025-2026 5wHN28Dg",
             license_type=Gtk.License.GPL_3_0,
             version="0.0.1",
+        )
+        about_dialog.add_acknowledgement_section(
+            "UI Inspiration", ["Blip https://blip.net/"]
         )
         return about_dialog
 
@@ -86,9 +89,9 @@ class DirectShareApp(Adw.Application):
         title_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         title_box.append(window_title)
         title_box.append(top_switcher)
-        title_box.append(about_button)
 
         header.set_title_widget(title_box)
+        header.pack_end(about_button)
 
         switcher = Adw.ViewSwitcherBar(stack=self.stack)
 
