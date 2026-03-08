@@ -33,30 +33,31 @@ class DirectShareApp(Adw.Application):
         return box
 
     def build_about_dialog(self):
-        about_dialog = Adw.AboutDialog()
-        about_dialog.set_application_name("Direct Share")
-        about_dialog.set_developer_name("5wHN28Dg")
-        about_dialog.set_issue_url(
-            "https://github.com/5wHN28Dg/Direct-Share/issues/new/choose"
+        about_dialog = Adw.AboutDialog(
+            application_name="Direct Share",
+            developer_name="5wHN28Dg",
+            issue_url="https://github.com/5wHN28Dg/Direct-Share/issues/new/choose",
+            support_url="https://github.com/5wHN28Dg/Direct-Share/discussions",
+            website="https://github.com/5wHN28Dg/Direct-Share",
+            copyright="© 2024 5wHN28Dg",
+            license_type=Gtk.License.GPL_3_0,
+            version="0.0.1",
         )
-        about_dialog.set_support_url(
-            "https://github.com/5wHN28Dg/Direct-Share/discussions"
-        )
-        about_dialog.set_website("https://github.com/5wHN28Dg/Direct-Share")
-        about_dialog.set_license_type(Gtk.License.GPL_3_0)
-        about_dialog.set_version("0.0.1")
         return about_dialog
 
     def on_activate(self, app: "DirectShareApp"):
         # Set up main app window
-        win = Adw.ApplicationWindow(application=app, resizable=True)
-        win.set_title("Direct Share")
-        win.set_default_size(900, 600)
+        win = Adw.ApplicationWindow(
+            application=app,
+            resizable=True,
+            title="Direct Share",
+            default_width=900,
+            default_height=600,
+        )
 
         header = Adw.HeaderBar()
         view = Adw.ToolbarView()
-        self.stack = Adw.ViewStack()
-        self.stack.set_vexpand(True)
+        self.stack = Adw.ViewStack(vexpand=True)
 
         main_page = self.build_main_page()
         trusted_page = self.build_trusted_page()
@@ -73,12 +74,11 @@ class DirectShareApp(Adw.Application):
             settings_page, "settings", "Settings", "applications-system-symbolic"
         )
 
-        top_switcher = Adw.ViewSwitcher()
-        top_switcher.set_stack(self.stack)
-        top_switcher.set_policy(Adw.ViewSwitcherPolicy.WIDE)
+        top_switcher = Adw.ViewSwitcher(
+            stack=self.stack, policy=Adw.ViewSwitcherPolicy.WIDE
+        )
 
-        window_title = Adw.WindowTitle(title="Direct Share")
-        window_title.set_visible(False)
+        window_title = Adw.WindowTitle(title="Direct Share", visible=False)
 
         about_button = Gtk.Button(icon_name="help-about-symbolic")
         about_button.connect("clicked", lambda _: about_dialog.present(win))
@@ -90,8 +90,7 @@ class DirectShareApp(Adw.Application):
 
         header.set_title_widget(title_box)
 
-        switcher = Adw.ViewSwitcherBar()
-        switcher.set_stack(self.stack)
+        switcher = Adw.ViewSwitcherBar(stack=self.stack)
 
         view.add_top_bar(header)
         view.add_bottom_bar(switcher)
