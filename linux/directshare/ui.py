@@ -28,23 +28,88 @@ class DirectShareApp(Adw.Application):
         return box
 
     def build_settings_page(self):
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-        box.append(Gtk.Label(label="Settings"))
-        return box
+        preferences_page = Adw.PreferencesPage()
+
+        theme_toggle = Adw.ToggleGroup(margin_bottom=12, margin_top=12)
+        theme_toggle.add(Adw.Toggle(label="Light"))
+        theme_toggle.add(Adw.Toggle(label="Dark"))
+        theme_toggle.add(Adw.Toggle(label="Black"))
+        theme_toggle.add(Adw.Toggle(label="System"))
+
+        theme_row = Adw.ActionRow(title="Theme")
+        theme_row.add_suffix(theme_toggle)
+
+        language_row = Adw.ComboRow(title="Language")
+
+        device_name_row = Adw.EntryRow(title="Device Name")
+
+        general_group = Adw.PreferencesGroup(title="General")
+        general_group.add(theme_row)
+        general_group.add(language_row)
+        general_group.add(device_name_row)
+
+        startup_row = Adw.SwitchRow(title="Start at OS startup")
+        quick_settings_row = Adw.SwitchRow(title="Add to Quick Settings Panel")
+
+        startup_access_group = Adw.PreferencesGroup(title="Startup and Access")
+        startup_access_group.add(startup_row)
+        startup_access_group.add(quick_settings_row)
+
+        default_folder_row = Adw.ButtonRow(
+            title="Default Folder", start_icon_name="folder-symbolic"
+        )
+
+        restore_backup_row = Adw.ActionRow(title="Restore/Backup")
+        restore_backup_row.add_suffix(
+            Gtk.Button(
+                child=Adw.ButtonContent(
+                    label="Restore", icon_name="document-open-symbolic"
+                ),
+                margin_top=8,
+                margin_bottom=8,
+                valign=Gtk.Align.CENTER,
+            )
+        )
+        restore_backup_row.add_suffix(
+            Gtk.Button(
+                child=Adw.ButtonContent(
+                    label="Backup", icon_name="document-save-symbolic"
+                ),
+                margin_top=8,
+                margin_bottom=8,
+                valign=Gtk.Align.CENTER,
+            )
+        )
+
+        files_storage_group = Adw.PreferencesGroup(title="Files and Storage")
+        files_storage_group.add(default_folder_row)
+        files_storage_group.add(restore_backup_row)
+
+        interface_row = Adw.ExpanderRow(title="Wi-Fi Direct interface")
+
+        network_group = Adw.PreferencesGroup(title="Network")
+        network_group.add(interface_row)
+
+        preferences_page.add(general_group)
+        preferences_page.add(startup_access_group)
+        preferences_page.add(files_storage_group)
+        preferences_page.add(network_group)
+
+        return preferences_page
 
     def build_about_dialog(self):
         about_dialog = Adw.AboutDialog(
             application_name="Direct Share",
             developer_name="5wHN28Dg",
             issue_url="https://github.com/5wHN28Dg/Direct-Share/issues/new/choose",
-            support_url="https://github.com/5wHN28Dg/Direct-Share/discussions",
+            support_url="https://github.com/5wHN28Dg/Direct-Share/discussions/10",
             website="https://github.com/5wHN28Dg/Direct-Share",
             copyright="© 2025-2026 5wHN28Dg",
             license_type=Gtk.License.GPL_3_0,
             version="0.0.1",
         )
         about_dialog.add_acknowledgement_section(
-            "UI Inspiration", ["Blip https://blip.net/"]
+            "UI/UX Inspiration", ["Blip https://blip.net/"]
         )
         return about_dialog
 
