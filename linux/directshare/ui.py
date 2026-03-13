@@ -55,11 +55,19 @@ class DirectShareApp(Adw.Application):
         startup_access_group.add(startup_row)
         startup_access_group.add(quick_settings_row)
 
-        default_folder_row = Adw.ButtonRow(
-            title="Default Folder", start_icon_name="folder-symbolic"
+        default_folder_row = Adw.ActionRow(title="Default Save Folder")
+        default_folder_row.add_suffix(
+            Gtk.Button(
+                child=Adw.ButtonContent(
+                    label="Select", icon_name="folder-open-symbolic"
+                ),
+                margin_top=8,
+                margin_bottom=8,
+                valign=Gtk.Align.CENTER,
+            )
         )
 
-        restore_backup_row = Adw.ActionRow(title="Restore/Backup")
+        restore_backup_row = Adw.ActionRow(title="App Data")
         restore_backup_row.add_suffix(
             Gtk.Button(
                 child=Adw.ButtonContent(
