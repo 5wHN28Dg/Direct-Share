@@ -31,10 +31,15 @@ class DirectShareApp(Adw.Application):
         preferences_page = Adw.PreferencesPage()
 
         theme_toggle = Adw.ToggleGroup(margin_bottom=12, margin_top=12)
-        theme_toggle.add(Adw.Toggle(label="Light"))
-        theme_toggle.add(Adw.Toggle(label="Dark"))
-        theme_toggle.add(Adw.Toggle(label="Black"))
-        theme_toggle.add(Adw.Toggle(label="System"))
+        theme_toggle.add(Adw.Toggle(label="Light", name="Light"))
+        theme_toggle.add(Adw.Toggle(label="Dark", name="Dark"))
+        theme_toggle.add(Adw.Toggle(label="Black", name="Black"))
+        theme_toggle.add(Adw.Toggle(label="System", name="System"))
+
+        theme_toggle.connect(
+            "notify::active-name",
+            lambda _toggle, _name: self.on_theme_changed(theme_toggle),
+        )
 
         theme_row = Adw.ActionRow(title="Theme")
         theme_row.add_suffix(theme_toggle)
@@ -120,6 +125,14 @@ class DirectShareApp(Adw.Application):
             "UI/UX Inspiration", ["Blip https://blip.net/"]
         )
         return about_dialog
+
+    def on_theme_changed(self, toggle_group):
+        scheme = {
+            "Light": Adw.ColorScheme.FORCE_LIGHT,
+            "Dark": Adw.ColorScheme.FORCE_DARK,
+            "System": Adw.ColorScheme.DEFAULT,
+        }.get(toggle_group.get_active_name(), Adw.ColorScheme.DEFAULT)
+        Adw.StyleManager.get_default().set_color_scheme(scheme)
 
     def on_activate(self, app: "DirectShareApp"):
         # Set up main app window
