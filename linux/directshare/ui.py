@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 5wHN28Dg
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Handles All the UI components of the application."""
+"""This module handles all the UI components of the application."""
 
 import gi
 
@@ -14,6 +14,7 @@ from gi.repository import Adw, Gtk
 class DirectShareApp(Adw.Application):
     def __init__(self, application_id: str):
         super().__init__(application_id=application_id)
+        self.css_provider = None
         self.connect("activate", self.on_activate)
 
     def build_main_page(self):
@@ -126,17 +127,48 @@ class DirectShareApp(Adw.Application):
         )
         return about_dialog
 
+    def apply_black_theme(self):
+        self.css_provider = Gtk.CssProvider()
+        self.css_provider.load_from_string("""
+            window, .view {
+                background-color: #000000;
+            }
+            dialog.about.scrolledwindow, dialog.about sheet {
+                background-color: #1a1a1a;
+            }
+        """)
+        Gtk.StyleContext.add_provider_for_display(
+            self.win.get_display(),
+            self.css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+        )
+        self.win.add_css_class("black-theme")
+
     def on_theme_changed(self, toggle_group):
         scheme = {
             "Light": Adw.ColorScheme.FORCE_LIGHT,
             "Dark": Adw.ColorScheme.FORCE_DARK,
+            "Black": Adw.ColorScheme.FORCE_DARK,
             "System": Adw.ColorScheme.DEFAULT,
         }.get(toggle_group.get_active_name(), Adw.ColorScheme.DEFAULT)
+
         Adw.StyleManager.get_default().set_color_scheme(scheme)
+
+        if (
+            scheme == Adw.ColorScheme.FORCE_DARK
+            and toggle_group.get_active_name() == "Black"
+        ):
+            self.apply_black_theme()
+        elif self.css_provider is not None:
+            self.win.remove_css_class("black-theme")
+            Gtk.StyleContext.remove_provider_for_display(
+                self.win.get_display(), self.css_provider
+            )
+            self.css_provider = None
 
     def on_activate(self, app: "DirectShareApp"):
         # Set up main app window
-        win = Adw.ApplicationWindow(
+        self.win = Adw.ApplicationWindow(
             application=app,
             resizable=True,
             title="Direct Share",
@@ -170,7 +202,7 @@ class DirectShareApp(Adw.Application):
         window_title = Adw.WindowTitle(title="Direct Share", visible=False)
 
         about_button = Gtk.Button(icon_name="help-about-symbolic")
-        about_button.connect("clicked", lambda _: about_dialog.present(win))
+        about_button.connect("clicked", lambda _: about_dialog.present(self.win))
 
         title_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         title_box.append(window_title)
@@ -185,13 +217,13 @@ class DirectShareApp(Adw.Application):
         view.add_bottom_bar(switcher)
         view.set_content(self.stack)
 
-        win.set_content(view)
+        self.win.set_content(view)
 
         # Break point fires to switch between top and bottom switcher bars based on window width
         bp = Adw.Breakpoint.new(Adw.BreakpointCondition.parse("max-width: 550sp"))
         bp.add_setter(top_switcher, "visible", False)
         bp.add_setter(window_title, "visible", True)
         bp.add_setter(switcher, "reveal", True)
-        win.add_breakpoint(bp)
+        self.win.add_breakpoint(bp)
 
-        win.present()
+        self.win.present()
