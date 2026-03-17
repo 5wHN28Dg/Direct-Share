@@ -3,6 +3,8 @@
 
 """This module handles all the UI components of the application."""
 
+from gettext import gettext as _
+
 import gi
 
 gi.require_version("Gtk", "4.0")
@@ -19,53 +21,53 @@ class DirectShareApp(Adw.Application):
 
     def build_main_page(self):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-        box.append(Gtk.Label(label="Direct-Share is running ✅"))
+        box.append(Gtk.Label(label=_("Direct-Share is running ✅")))
         # will add widgets here
         return box
 
     def build_trusted_page(self):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-        box.append(Gtk.Label(label="Trusted Devices"))
+        box.append(Gtk.Label(label=_("Trusted Devices")))
         return box
 
     def build_settings_page(self):
         preferences_page = Adw.PreferencesPage()
 
         theme_toggle = Adw.ToggleGroup(margin_bottom=12, margin_top=12)
-        theme_toggle.add(Adw.Toggle(label="Light", name="Light"))
-        theme_toggle.add(Adw.Toggle(label="Dark", name="Dark"))
-        theme_toggle.add(Adw.Toggle(label="Black", name="Black"))
-        theme_toggle.add(Adw.Toggle(label="System", name="System"))
+        theme_toggle.add(Adw.Toggle(label=_("Light"), name="Light"))
+        theme_toggle.add(Adw.Toggle(label=_("Dark"), name="Dark"))
+        theme_toggle.add(Adw.Toggle(label=_("Black"), name="Black"))
+        theme_toggle.add(Adw.Toggle(label=_("System"), name="System"))
 
         theme_toggle.connect(
             "notify::active-name",
             lambda _toggle, _name: self.on_theme_changed(theme_toggle),
         )
 
-        theme_row = Adw.ActionRow(title="Theme")
+        theme_row = Adw.ActionRow(title=_("Theme"))
         theme_row.add_suffix(theme_toggle)
 
-        language_row = Adw.ComboRow(title="Language")
+        language_row = Adw.ComboRow(title=_("Language"))
 
-        device_name_row = Adw.EntryRow(title="Device Name")
+        device_name_row = Adw.EntryRow(title=_("Device Name"))
 
-        general_group = Adw.PreferencesGroup(title="General")
+        general_group = Adw.PreferencesGroup(title=_("General"))
         general_group.add(theme_row)
         general_group.add(language_row)
         general_group.add(device_name_row)
 
-        startup_row = Adw.SwitchRow(title="Start at OS startup")
-        quick_settings_row = Adw.SwitchRow(title="Add to Quick Settings Panel")
+        startup_row = Adw.SwitchRow(title=_("Start at OS startup"))
+        quick_settings_row = Adw.SwitchRow(title=_("Add to Quick Settings Panel"))
 
-        startup_access_group = Adw.PreferencesGroup(title="Startup and Access")
+        startup_access_group = Adw.PreferencesGroup(title=_("Startup and Access"))
         startup_access_group.add(startup_row)
         startup_access_group.add(quick_settings_row)
 
-        default_folder_row = Adw.ActionRow(title="Default Save Folder")
+        default_folder_row = Adw.ActionRow(title=_("Default Save Folder"))
         default_folder_row.add_suffix(
             Gtk.Button(
                 child=Adw.ButtonContent(
-                    label="Select", icon_name="folder-open-symbolic"
+                    label=_("Select"), icon_name="folder-open-symbolic"
                 ),
                 margin_top=8,
                 margin_bottom=8,
@@ -73,11 +75,11 @@ class DirectShareApp(Adw.Application):
             )
         )
 
-        restore_backup_row = Adw.ActionRow(title="App Data")
+        restore_backup_row = Adw.ActionRow(title=_("App Data"))
         restore_backup_row.add_suffix(
             Gtk.Button(
                 child=Adw.ButtonContent(
-                    label="Restore", icon_name="document-open-symbolic"
+                    label=_("Restore"), icon_name="document-open-symbolic"
                 ),
                 margin_top=8,
                 margin_bottom=8,
@@ -87,7 +89,7 @@ class DirectShareApp(Adw.Application):
         restore_backup_row.add_suffix(
             Gtk.Button(
                 child=Adw.ButtonContent(
-                    label="Backup", icon_name="document-save-symbolic"
+                    label=_("Backup"), icon_name="document-save-symbolic"
                 ),
                 margin_top=8,
                 margin_bottom=8,
@@ -95,13 +97,13 @@ class DirectShareApp(Adw.Application):
             )
         )
 
-        files_storage_group = Adw.PreferencesGroup(title="Files and Storage")
+        files_storage_group = Adw.PreferencesGroup(title=_("Files and Storage"))
         files_storage_group.add(default_folder_row)
         files_storage_group.add(restore_backup_row)
 
-        interface_row = Adw.ExpanderRow(title="Wi-Fi Direct interface")
+        interface_row = Adw.ExpanderRow(title=_("Wi-Fi Direct interface"))
 
-        network_group = Adw.PreferencesGroup(title="Network")
+        network_group = Adw.PreferencesGroup(title=_("Network"))
         network_group.add(interface_row)
 
         preferences_page.add(general_group)
@@ -123,7 +125,7 @@ class DirectShareApp(Adw.Application):
             version="0.0.1",
         )
         about_dialog.add_acknowledgement_section(
-            "UI/UX Inspiration", ["Blip https://blip.net/"]
+            _("UI/UX Inspiration"), ["Blip https://blip.net/"]
         )
         return about_dialog
 
@@ -186,13 +188,13 @@ class DirectShareApp(Adw.Application):
         about_dialog = self.build_about_dialog()
 
         self.stack.add_titled_with_icon(
-            main_page, "main", "Transfer Files", "mail-send-receive-symbolic"
+            main_page, "main", _("Transfer Files"), "mail-send-receive-symbolic"
         )
         self.stack.add_titled_with_icon(
-            trusted_page, "trusted", "Trusted Devices", "computer-symbolic"
+            trusted_page, "trusted", _("Trusted Devices"), "computer-symbolic"
         )
         self.stack.add_titled_with_icon(
-            settings_page, "settings", "Settings", "applications-system-symbolic"
+            settings_page, "settings", _("Settings"), "applications-system-symbolic"
         )
 
         top_switcher = Adw.ViewSwitcher(

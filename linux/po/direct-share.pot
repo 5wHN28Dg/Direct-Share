@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-17 13:19+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: directshare/ui.py:24
+msgid "Direct-Share is running ✅"
+msgstr ""
+
+#: directshare/ui.py:30 directshare/ui.py:194
+msgid "Trusted Devices"
+msgstr ""
+
+#: directshare/ui.py:37
+msgid "Light"
+msgstr ""
+
+#: directshare/ui.py:38
+msgid "Dark"
+msgstr ""
+
+#: directshare/ui.py:39
+msgid "Black"
+msgstr ""
+
+#: directshare/ui.py:40
+msgid "System"
+msgstr ""
+
+#: directshare/ui.py:47
+msgid "Theme"
+msgstr ""
+
+#: directshare/ui.py:50
+msgid "Language"
+msgstr ""
+
+#: directshare/ui.py:52
+msgid "Device Name"
+msgstr ""
+
+#: directshare/ui.py:54
+msgid "General"
+msgstr ""
+
+#: directshare/ui.py:59
+msgid "Start at OS startup"
+msgstr ""
+
+#: directshare/ui.py:60
+msgid "Add to Quick Settings Panel"
+msgstr ""
+
+#: directshare/ui.py:62
+msgid "Startup and Access"
+msgstr ""
+
+#: directshare/ui.py:66
+msgid "Default Save Folder"
+msgstr ""
+
+#: directshare/ui.py:70
+msgid "Select"
+msgstr ""
+
+#: directshare/ui.py:78
+msgid "App Data"
+msgstr ""
+
+#: directshare/ui.py:82
+msgid "Restore"
+msgstr ""
+
+#: directshare/ui.py:92
+msgid "Backup"
+msgstr ""
+
+#: directshare/ui.py:100
+msgid "Files and Storage"
+msgstr ""
+
+#: directshare/ui.py:104
+msgid "Wi-Fi Direct interface"
+msgstr ""
+
+#: directshare/ui.py:106
+msgid "Network"
+msgstr ""
+
+#: directshare/ui.py:128
+msgid "UI/UX Inspiration"
+msgstr ""
+
+#: directshare/ui.py:191
+msgid "Transfer Files"
+msgstr ""
+
+#: directshare/ui.py:197
+msgid "Settings"
+msgstr ""

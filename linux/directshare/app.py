@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import asyncio
+import gettext
+import os
 
 # import gi
 # gi.require_version("Gtk", "4.0")
@@ -9,6 +11,10 @@ import asyncio
 from gi.events import GLibEventLoopPolicy
 
 from .ui import DirectShareApp
+
+_localedir = os.path.join(os.path.dirname(__file__), "..", "po")
+gettext.bindtextdomain("direct-share", _localedir)
+gettext.textdomain("direct-share")
 
 
 def run():
