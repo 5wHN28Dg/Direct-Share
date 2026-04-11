@@ -142,7 +142,7 @@ class DirectShareApp(Adw.Application):
         files_storage_group.add(default_folder_row)
         files_storage_group.add(restore_backup_row)
 
-        interface_row = Adw.ExpanderRow(title=_("Wi-Fi Direct interface"))
+        interface_row = Adw.ExpanderRow(title=_("Wi-Fi Direct Interface"))
 
         network_group = Adw.PreferencesGroup(title=_("Network"))
         network_group.add(interface_row)
