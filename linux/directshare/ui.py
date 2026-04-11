@@ -1,7 +1,28 @@
 # SPDX-FileCopyrightText: 2026 5wHN28Dg
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""This module handles all the UI components of the application."""
+"""
+UI layer for Direct Share built with GTK4 and Libadwaita.
+
+Responsibilities:
+- Define the main application window and navigation structure
+- Construct primary views (main, trusted devices, settings)
+- Handle user-driven UI state changes (theme, language, layout direction)
+- Integrate with i18n for dynamic language switching
+
+Architecture:
+- Single Adw.Application subclass managing all UI state
+- ViewStack-based navigation with adaptive layout (top/bottom switcher)
+- UI is rebuilt on language switch
+
+Assumptions / Constraints:
+- Relies on environment variable LANG for language selection
+- RTL/LTR direction is set globally via Gtk.Widget.set_default_direction
+- Theme handling uses Adw.StyleManager with optional custom CSS override
+
+Notes:
+- UI is constructed programmatically (no .ui files / GtkBuilder)
+"""
 
 import os
 from gettext import gettext as _
