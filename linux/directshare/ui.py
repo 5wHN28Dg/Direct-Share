@@ -99,10 +99,12 @@ class DirectShareApp(Adw.Application):
 
         startup_row = Adw.SwitchRow(title=_("Start at OS startup"))
         quick_settings_row = Adw.SwitchRow(title=_("Add to Quick Settings Panel"))
+        system_tray_row = Adw.SwitchRow(title=_("Add to system tray"))
 
         startup_access_group = Adw.PreferencesGroup(title=_("Startup and Access"))
         startup_access_group.add(startup_row)
         startup_access_group.add(quick_settings_row)
+        startup_access_group.add(system_tray_row)
 
         awake_row = Adw.SwitchRow(title=_("Keep device awake during transfers"))
 
