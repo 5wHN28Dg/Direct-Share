@@ -104,6 +104,11 @@ class DirectShareApp(Adw.Application):
         startup_access_group.add(startup_row)
         startup_access_group.add(quick_settings_row)
 
+        awake_row = Adw.SwitchRow(title=_("Keep device awake during transfers"))
+
+        power_behavior_group = Adw.PreferencesGroup(title=_("Power and Behavior"))
+        power_behavior_group.add(awake_row)
+
         default_folder_row = Adw.ActionRow(title=_("Default Save Folder"))
         default_folder_row.add_suffix(
             Gtk.Button(
@@ -150,6 +155,7 @@ class DirectShareApp(Adw.Application):
         preferences_page.add(general_group)
         preferences_page.add(startup_access_group)
         preferences_page.add(files_storage_group)
+        preferences_page.add(power_behavior_group)
         preferences_page.add(network_group)
 
         return preferences_page
