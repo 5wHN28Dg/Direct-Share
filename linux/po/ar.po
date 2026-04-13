@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-17 13:19+0300\n"
+"POT-Creation-Date: 2026-04-13 09:41+0300\n"
 "PO-Revision-Date: 2026-03-17 13:20+0300\n"
 "Last-Translator: Hashim <9fe8bc4c-bf28-4b6a-b4d3-"
 "a1b3bdf11ffc@simplelogin.com>\n"
@@ -20,98 +20,111 @@ msgstr ""
 msgid "ar"
 msgstr "العربية"
 
-#: directshare/ui.py:24
+#: directshare/ui.py:48
 msgid "Direct-Share is running ✅"
 msgstr "دايركت شير قيد العمل"
 
-#: directshare/ui.py:30 directshare/ui.py:194
+#: directshare/ui.py:54 directshare/ui.py:255
 msgid "Trusted Devices"
 msgstr "الاجهزة الموثوقة"
 
-#: directshare/ui.py:37
+#: directshare/ui.py:61
 msgid "Light"
 msgstr "فاتح"
 
-#: directshare/ui.py:38
+#: directshare/ui.py:62
 msgid "Dark"
 msgstr "داكن"
 
-#: directshare/ui.py:39
+#: directshare/ui.py:63
 msgid "Black"
 msgstr "اسود"
 
-#: directshare/ui.py:40
+#: directshare/ui.py:64
 msgid "System"
 msgstr "نظام"
 
-#: directshare/ui.py:47
+#: directshare/ui.py:80
 msgid "Theme"
 msgstr "الثيم"
 
-#: directshare/ui.py:50
+#: directshare/ui.py:83
 msgid "Language"
 msgstr "اللغة"
 
-#: directshare/ui.py:52
+#: directshare/ui.py:93
 msgid "Device Name"
 msgstr "اسم الجهاز"
 
-#: directshare/ui.py:54
+#: directshare/ui.py:95
 msgid "General"
 msgstr "عام"
 
-#: directshare/ui.py:59
+#: directshare/ui.py:100
 msgid "Start at OS startup"
 msgstr "تشغيل مع بدأ نظام التشغيل"
 
-#: directshare/ui.py:60
+#: directshare/ui.py:101
 msgid "Add to Quick Settings Panel"
 msgstr "إضافة إلى لوحة التحكم السريعة"
 
-#: directshare/ui.py:62
+#: directshare/ui.py:102
+msgid "Add to system tray"
+msgstr "إضافة لشريط النظام"
+
+#: directshare/ui.py:104
 msgid "Startup and Access"
 msgstr "بدء التشغيل والوصول"
 
-#: directshare/ui.py:66
+#: directshare/ui.py:109
+msgid "Keep device awake during transfers"
+msgstr "ابقاء الجهاز مستيقظاً لحين اكتمال عملية التحويل"
+
+#: directshare/ui.py:111
+msgid "Power and Behavior"
+msgstr "الطاقة والسلوك"
+
+#: directshare/ui.py:114
 msgid "Default Save Folder"
 msgstr "مجلد الحفظ الافتراضي"
 
-#: directshare/ui.py:70
+#: directshare/ui.py:118
 msgid "Select"
 msgstr "اختيار"
 
-#: directshare/ui.py:78
+#: directshare/ui.py:126
 msgid "App Data"
 msgstr "بيانات التطبيق"
 
-#: directshare/ui.py:82
+#: directshare/ui.py:130
 msgid "Restore"
 msgstr "استعادة"
 
-#: directshare/ui.py:92
+#: directshare/ui.py:140
 msgid "Backup"
 msgstr "نسخ احتياطي"
 
-#: directshare/ui.py:100
+#: directshare/ui.py:148
 msgid "Files and Storage"
 msgstr "الملفات وذاكرة التخزين"
 
-#: directshare/ui.py:104
-msgid "Wi-Fi Direct interface"
+#: directshare/ui.py:152
+#, fuzzy
+msgid "Wi-Fi Direct Interface"
 msgstr "واجهة Wi-Fi المباشر"
 
-#: directshare/ui.py:106
+#: directshare/ui.py:154
 msgid "Network"
 msgstr "الشبكة"
 
-#: directshare/ui.py:128
+#: directshare/ui.py:177
 msgid "UI/UX Inspiration"
 msgstr "إلهام واجهة وتجربة المستخدم"
 
-#: directshare/ui.py:191
+#: directshare/ui.py:252
 msgid "Transfer Files"
 msgstr "تبادل الملفات"
 
-#: directshare/ui.py:197
+#: directshare/ui.py:258
 msgid "Settings"
 msgstr "الإعدادات"

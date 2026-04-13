@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-17 13:19+0300\n"
+"POT-Creation-Date: 2026-04-13 09:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,98 +17,110 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: directshare/ui.py:24
+#: directshare/ui.py:48
 msgid "Direct-Share is running ✅"
 msgstr ""
 
-#: directshare/ui.py:30 directshare/ui.py:194
+#: directshare/ui.py:54 directshare/ui.py:255
 msgid "Trusted Devices"
 msgstr ""
 
-#: directshare/ui.py:37
+#: directshare/ui.py:61
 msgid "Light"
 msgstr ""
 
-#: directshare/ui.py:38
+#: directshare/ui.py:62
 msgid "Dark"
 msgstr ""
 
-#: directshare/ui.py:39
+#: directshare/ui.py:63
 msgid "Black"
 msgstr ""
 
-#: directshare/ui.py:40
+#: directshare/ui.py:64
 msgid "System"
 msgstr ""
 
-#: directshare/ui.py:47
+#: directshare/ui.py:80
 msgid "Theme"
 msgstr ""
 
-#: directshare/ui.py:50
+#: directshare/ui.py:83
 msgid "Language"
 msgstr ""
 
-#: directshare/ui.py:52
+#: directshare/ui.py:93
 msgid "Device Name"
 msgstr ""
 
-#: directshare/ui.py:54
+#: directshare/ui.py:95
 msgid "General"
 msgstr ""
 
-#: directshare/ui.py:59
+#: directshare/ui.py:100
 msgid "Start at OS startup"
 msgstr ""
 
-#: directshare/ui.py:60
+#: directshare/ui.py:101
 msgid "Add to Quick Settings Panel"
 msgstr ""
 
-#: directshare/ui.py:62
-msgid "Startup and Access"
-msgstr ""
-
-#: directshare/ui.py:66
-msgid "Default Save Folder"
-msgstr ""
-
-#: directshare/ui.py:70
-msgid "Select"
-msgstr ""
-
-#: directshare/ui.py:78
-msgid "App Data"
-msgstr ""
-
-#: directshare/ui.py:82
-msgid "Restore"
-msgstr ""
-
-#: directshare/ui.py:92
-msgid "Backup"
-msgstr ""
-
-#: directshare/ui.py:100
-msgid "Files and Storage"
+#: directshare/ui.py:102
+msgid "Add to system tray"
 msgstr ""
 
 #: directshare/ui.py:104
-msgid "Wi-Fi Direct interface"
+msgid "Startup and Access"
 msgstr ""
 
-#: directshare/ui.py:106
+#: directshare/ui.py:109
+msgid "Keep device awake during transfers"
+msgstr ""
+
+#: directshare/ui.py:111
+msgid "Power and Behavior"
+msgstr ""
+
+#: directshare/ui.py:114
+msgid "Default Save Folder"
+msgstr ""
+
+#: directshare/ui.py:118
+msgid "Select"
+msgstr ""
+
+#: directshare/ui.py:126
+msgid "App Data"
+msgstr ""
+
+#: directshare/ui.py:130
+msgid "Restore"
+msgstr ""
+
+#: directshare/ui.py:140
+msgid "Backup"
+msgstr ""
+
+#: directshare/ui.py:148
+msgid "Files and Storage"
+msgstr ""
+
+#: directshare/ui.py:152
+msgid "Wi-Fi Direct Interface"
+msgstr ""
+
+#: directshare/ui.py:154
 msgid "Network"
 msgstr ""
 
-#: directshare/ui.py:128
+#: directshare/ui.py:177
 msgid "UI/UX Inspiration"
 msgstr ""
 
-#: directshare/ui.py:191
+#: directshare/ui.py:252
 msgid "Transfer Files"
 msgstr ""
 
-#: directshare/ui.py:197
+#: directshare/ui.py:258
 msgid "Settings"
 msgstr ""
