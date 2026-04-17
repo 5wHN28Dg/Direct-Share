@@ -65,7 +65,8 @@ Direct-Share is an attempt to build a file transfer tool that makes local file t
 - [ ] Linux → Android
 
 ### UX
-- [ ] UI/UX is still rough and will change significantly
+- [x] ~~UI/UX is still rough and will change significantly~~
+- [ ] UI/UX direction is now defined and stable, with ongoing missing pieces being added.
 
 ## Development
 
@@ -111,9 +112,8 @@ python3 -m directshare
 
 Direct-Share currently relies on Linux Wi-Fi Direct support through:
 - **NetworkManager D-Bus API**
-- **wpa_supplicant D-Bus API**
 
-The Linux GUI is currently being migrated from **Dear PyGui** to **GTK4**.
+The Linux GUI is currently being migrated from **Dear PyGui** to **GTK4** with **Libadwaita**.
 
 
 ## Useful tools / references
