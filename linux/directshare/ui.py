@@ -19,6 +19,7 @@ Assumptions / Constraints:
 - Relies on environment variable LANG for language selection
 - RTL/LTR direction is set globally via Gtk.Widget.set_default_direction
 - Theme handling uses Adw.StyleManager with optional custom CSS override
+- A full process restart is required to apply language changes to built-in UI strings
 
 Notes:
 - UI is constructed programmatically (no .ui files / GtkBuilder)
