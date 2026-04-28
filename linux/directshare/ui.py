@@ -231,14 +231,8 @@ class DirectShareApp(Adw.Application):
         self.build_widgets()
         self.win.set_content(self.view)
 
-        self.language_row.disconnect_by_func(self.on_language_changed)
-
         assert current_page is not None
         self.stack.set_visible_child_name(current_page)
-        index = self.lang_names.index(current_lang)
-        self.language_row.set_selected(index)
-
-        self.language_row.connect("notify::selected-item", self.on_language_changed)
 
     def build_widgets(self):
         header = Adw.HeaderBar()
