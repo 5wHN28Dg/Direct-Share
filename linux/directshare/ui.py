@@ -16,10 +16,9 @@ Architecture:
 - UI is rebuilt on language switch
 
 Assumptions / Constraints:
-- Relies on environment variable LANG for language selection
+- Relies on environment variable LANGUAGE for language selection
 - RTL/LTR direction is set globally via Gtk.Widget.set_default_direction
 - Theme handling uses Adw.StyleManager with optional custom CSS override
-- A full process restart is required to apply language changes to built-in UI strings
 
 Notes:
 - UI is constructed programmatically (no .ui files / GtkBuilder)
@@ -86,7 +85,7 @@ class DirectShareApp(Adw.Application):
         self.lang_names = list(self.languages.keys())
         self.language_row.set_model(Gtk.StringList.new(self.lang_names))
         for index, lang in enumerate(self.languages.values()):
-            if os.environ["LANG"].startswith(lang):
+            if os.getenv("LANGUAGE", os.getenv("LANG", "")).startswith(lang):
                 self.language_row.set_selected(index)
                 break
         self.language_row.connect("notify::selected-item", self.on_language_changed)
@@ -225,7 +224,9 @@ class DirectShareApp(Adw.Application):
             else Gtk.TextDirection.LTR
         )
         Gtk.Widget.set_default_direction(direction)
-        os.environ["LANG"] = self.languages[current_lang]
+        os.environ["LANGUAGE"] = self.languages[current_lang]
+
+        i18n.invalidate_gettext_cache("libadwaita", "/usr/share/locale")
 
         self.build_widgets()
         self.win.set_content(self.view)
