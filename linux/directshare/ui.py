@@ -198,6 +198,9 @@ class DirectShareApp(Adw.Application):
             dialog.about.scrolledwindow, dialog.about sheet {
                 background-color: #1a1a1a;
             }
+            preferencesgroup listview.inline {
+                background-color: #00000000;
+            }
         """)
         Gtk.StyleContext.add_provider_for_display(
             self.win.get_display(),
