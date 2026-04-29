@@ -68,10 +68,21 @@ class DirectShareApp(Adw.Application):
             "Black": Adw.ColorScheme.FORCE_DARK,
             "System": Adw.ColorScheme.DEFAULT,
         }
-        for name, value in self.scheme.items():
-            if value == Adw.StyleManager.get_default().get_color_scheme():
-                theme_toggle.set_active_name(name)
-                break
+        current_scheme = Adw.StyleManager.get_default().get_color_scheme()
+
+        if (
+            current_scheme == Adw.ColorScheme.FORCE_DARK
+            and "black-theme" in self.win.get_css_classes()
+        ):
+            selected_name = "Black"
+        else:
+            selected_name = next(
+                name
+                for name, value in self.scheme.items()
+                if value == current_scheme and name != "Black"
+            )
+
+        theme_toggle.set_active_name(selected_name)
         theme_toggle.connect(
             "notify::active-name",
             lambda _toggle, _name: self.on_theme_changed(theme_toggle),
