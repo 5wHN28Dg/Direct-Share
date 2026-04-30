@@ -105,7 +105,7 @@ python3 -m directshare
 - Multi-file support
 - Resume/cancel transfers
 - Android app (Kotlin / Jetpack Compose)
-- Packaging (deb / Flatpak / APK)
+- Packaging (deb / Flatpak / AppImage / APK)
 
 
 ## Technical overview
