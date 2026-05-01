@@ -1,3 +1,4 @@
+import asyncio
 import uuid
 
 from dbus_fast import BusType, Variant
@@ -8,19 +9,34 @@ class NMClient:
     async def __init__(self):
         self.bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
 
+        login1 = self.bus.get_proxy_object(
+            "org.freedesktop.login1",
+            "/org/freedesktop/login1",
+            await self.bus.introspect(
+                "org.freedesktop.login1", "/org/freedesktop/login1"
+            ),
+        )
+        manager = login1.get_interface("org.freedesktop.login1.Manager")
+        manager.on_prepare_for_sleep(self._on_prepare_for_sleep)
+
         introspection = await self.bus.introspect(
             "org.freedesktop.NetworkManager", "/org/freedesktop/NetworkManager"
         )
 
-        service_obj = self.bus.get_proxy_object(
+        nm_service_obj = self.bus.get_proxy_object(
             "org.freedesktop.NetworkManager",
             "/org/freedesktop/NetworkManager",
             introspection,
         )
 
-        self.interface = service_obj.get_interface("org.freedesktop.NetworkManager")
+        self.nm_interface = nm_service_obj.get_interface(
+            "org.freedesktop.NetworkManager"
+        )
+        await self.discover_wifi_p2p_device()
 
-        devices = await self.interface.get_devices()
+    async def discover_wifi_p2p_device(self):
+        devices = await self.nm_interface.get_devices()
+        wifi_p2p_devices = []
         for device in devices:
             self.device_obj = self.bus.get_proxy_object(
                 "org.freedesktop.NetworkManager",
@@ -31,8 +47,16 @@ class NMClient:
                 "org.freedesktop.NetworkManager.Device"
             )
             if await device_interface.get_device_type() == 30:
-                print("Found WiFiP2P device, it is:", device, "you are good to go")
-                break
+                wifi_p2p_devices.append(device)
+
+        self.wifi_p2p_device = (
+            wifi_p2p_devices[0] if len(wifi_p2p_devices) >= 1 else None
+        )
+
+    async def _on_prepare_for_sleep(self, sleeping: bool):
+        if not sleeping:  # waking up
+            await asyncio.sleep(2)
+            await self.discover_wifi_p2p_device()
 
     async def find_wifi_p2p_peers(self):
         device_interface = self.device_obj.get_interface(
@@ -62,7 +86,7 @@ class NMClient:
                 path,
                 active_connection,
                 result,
-            ) = await self.interface.call_add_and_activate_connection2(
+            ) = await self.nm_interface.call_add_and_activate_connection2(
                 connection_settings,
                 self.device_obj.path,
                 peer_path,
