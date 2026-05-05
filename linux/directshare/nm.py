@@ -9,33 +9,42 @@ from dbus_fast.aio import MessageBus
 
 
 class NMClient:
-    async def __init__(self):
-        self.bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
+    def __init__(self, bus: MessageBus):
+        self.bus = bus
+        self.nm_interface = None
+        self.device_obj = None
+        self.wifi_p2p_device = None
 
-        login1 = self.bus.get_proxy_object(
+    @classmethod
+    async def create(cls):
+        bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
+        instance = cls(bus)
+
+        login1 = instance.bus.get_proxy_object(
             "org.freedesktop.login1",
             "/org/freedesktop/login1",
-            await self.bus.introspect(
+            await instance.bus.introspect(
                 "org.freedesktop.login1", "/org/freedesktop/login1"
             ),
         )
         manager = login1.get_interface("org.freedesktop.login1.Manager")
-        manager.on_prepare_for_sleep(self._on_prepare_for_sleep)
+        manager.on_prepare_for_sleep(instance._on_prepare_for_sleep)
 
-        introspection = await self.bus.introspect(
+        introspection = await bus.introspect(
             "org.freedesktop.NetworkManager", "/org/freedesktop/NetworkManager"
         )
 
-        nm_service_obj = self.bus.get_proxy_object(
+        nm_service_obj = instance.bus.get_proxy_object(
             "org.freedesktop.NetworkManager",
             "/org/freedesktop/NetworkManager",
             introspection,
         )
 
-        self.nm_interface = nm_service_obj.get_interface(
+        instance.nm_interface = nm_service_obj.get_interface(
             "org.freedesktop.NetworkManager"
         )
-        await self.discover_wifi_p2p_device()
+        await instance.discover_wifi_p2p_device()
+        return instance
 
     async def discover_wifi_p2p_device(self):
         devices = await self.nm_interface.get_devices()
@@ -62,12 +71,12 @@ class NMClient:
             await self.discover_wifi_p2p_device()
 
     async def find_wifi_p2p_peers(self):
-        device_interface = self.device_obj.get_interface(
+        p2p_device_interface = self.device_obj.get_interface(
             "org.freedesktop.NetworkManager.Device.WifiP2P"
         )
         # device_interface.on_peer_added(self.changed_notify)
         # device_interface.on_peer_removed(self.changed_notify)
-        await device_interface.call_start_find({})
+        await p2p_device_interface.call_start_find({})
 
     async def connect_to_peer(self, peer_path):
         """Asynchronously initiates a Wi-Fi P2P connection to a selected peer."""
