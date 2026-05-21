@@ -48,7 +48,7 @@ class NMClient:
 
     async def discover_wifi_p2p_device(self):
         devices = await self.nm_interface.get_devices()
-        wifi_p2p_devices = []
+        self.wifi_p2p_devices = {}
         for device in devices:
             self.device_obj = self.bus.get_proxy_object(
                 "org.freedesktop.NetworkManager",
@@ -59,10 +59,14 @@ class NMClient:
                 "org.freedesktop.NetworkManager.Device"
             )
             if await device_interface.get_device_type() == 30:
-                wifi_p2p_devices.append(device)
+                self.wifi_p2p_devices[device] = self.device_obj.get_interface(
+                    "org.freedesktop.NetworkManager.Device.WifiP2P"
+                )
 
         self.wifi_p2p_device = (
-            wifi_p2p_devices[0] if len(wifi_p2p_devices) >= 1 else None
+            next(iter(self.wifi_p2p_devices.keys()))
+            if len(self.wifi_p2p_devices) >= 1
+            else None
         )
 
     async def _on_prepare_for_sleep(self, sleeping: bool):
@@ -70,13 +74,17 @@ class NMClient:
             await asyncio.sleep(2)
             await self.discover_wifi_p2p_device()
 
-    async def find_wifi_p2p_peers(self):
-        p2p_device_interface = self.device_obj.get_interface(
-            "org.freedesktop.NetworkManager.Device.WifiP2P"
-        )
-        # device_interface.on_peer_added(self.changed_notify)
-        # device_interface.on_peer_removed(self.changed_notify)
-        await p2p_device_interface.call_start_find({})
+    async def find_peers(self):
+        await next(iter(self.wifi_p2p_devices.values())).call_start_find({})
+
+    def on_peer_added(self, callback):
+        next(iter(self.wifi_p2p_devices.values())).on_peer_added(callback)
+
+    def on_peer_removed(self, callback):
+        next(iter(self.wifi_p2p_devices.values())).on_peer_removed(callback)
+
+    async def get_peers(self):
+        return await next(iter(self.wifi_p2p_devices.values())).get_peers()
 
     async def connect_to_peer(self, peer_path):
         """Asynchronously initiates a Wi-Fi P2P connection to a selected peer."""

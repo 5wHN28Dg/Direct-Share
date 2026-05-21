@@ -13,13 +13,40 @@ Responsibility:
 
 It represents:
 
-> “What the app *means*”
+> "What the app *means*"
 """
 
-device_interface.on_peer_added(self.changed_notify)
-device_interface.on_peer_removed(self.changed_notify)
+from .backend import BackendInterface
 
 
-async def update_peers_list(self):
-    peers = await self.device_interface.get_peers()
-    dpg.configure_item("Peer List", items=peers, show=True)
+class CoreApp:
+    def __init__(self, backend: BackendInterface):
+        self.backend = backend
+        self.helper = None
+        self.selected_peer = None
+        self.peers = []
+        self.trusted_peers = []
+        self.active_transfers = {}
+
+    @classmethod
+    async def create(cls, backend: BackendInterface):
+        instance = cls(backend)
+        await instance.backend.initialize()
+
+        instance.backend.on_peer_added(instance.on_peer_added)
+        instance.backend.on_peer_removed(instance.on_peer_removed)
+
+        await instance.update_peers_list()
+        return instance
+
+    async def find_peers(self):
+        await self.backend.find_peers()
+
+    async def update_peers_list(self):
+        self.peers = await self.backend.get_peers()
+
+    def on_peer_added(self, peer):
+        self.peers.append(peer)
+
+    def on_peer_removed(self, peer):
+        self.peers = [p for p in self.peers if p != peer]

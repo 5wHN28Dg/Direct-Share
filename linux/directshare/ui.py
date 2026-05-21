@@ -24,6 +24,7 @@ Notes:
 - UI is constructed programmatically (no .ui files / GtkBuilder)
 """
 
+import asyncio
 import os
 from gettext import gettext as _
 
@@ -40,14 +41,82 @@ from gi.repository import Adw, Gtk
 class DirectShareApp(Adw.Application):
     def __init__(self, application_id: str):
         super().__init__(application_id=application_id)
+        self.core = None
         self.css_provider = None
         self.connect("activate", self.on_activate)
 
+    def set_core(self, core):
+        self.core = core
+
     def build_main_page(self):
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-        box.append(Gtk.Label(label=_("Direct-Share is running ✅")))
-        # will add widgets here
-        return box
+        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+
+        scroll_win = Gtk.ScrolledWindow()
+        scroll_win.set_size_request(-1, 250)
+
+        flow_box = Gtk.FlowBox(
+            orientation=Gtk.Orientation.HORIZONTAL,
+            column_spacing=12,
+            row_spacing=12,
+            homogeneous=False,
+            hexpand=True,
+            vexpand=True,
+        )
+        box = Gtk.FlowBoxChild(
+            halign=Gtk.Align.CENTER,
+            valign=Gtk.Align.START,
+            hexpand=True,
+        )
+
+        flow_box.insert(box, -1)
+        scroll_win.set_child(flow_box)
+
+        search_button = Gtk.Button(
+            icon_name="edit-find-symbolic",
+            tooltip_text=_("Search for Peers"),
+        )
+        search_button.connect("clicked", self.on_search_clicked)
+
+        self.header.pack_start(search_button)
+
+        files_stack = Adw.ViewStack(enable_transitions=True, vexpand=True)
+
+        selected_files_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        queue_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+
+        files_stack.add_titled(selected_files_box, "selected", _("Selected Files"))
+        files_stack.add_titled(queue_box, "queue", _("Queue"))
+
+        files_stack_switcher = Adw.InlineViewSwitcher(
+            stack=files_stack, margin_bottom=12, margin_top=12, halign=Gtk.Align.CENTER
+        )
+
+        main_box.append(scroll_win)
+        main_box.append(files_stack_switcher)
+        main_box.append(files_stack)
+        return main_box
+
+    def on_search_clicked(self, button):
+        if self.core is None:
+            print("CRITICAL: Core not ready yet")
+            return
+
+        async def run_scan():
+            try:
+                button.set_sensitive(False)
+                print("Sending scan request to NetworkManager...")
+
+                await self.core.find_peers()
+
+                print("Scan request successful! Waiting for peers...")
+
+            except Exception as e:
+                print(f"CRITICAL: Failed to start scan: {e}")
+            finally:
+                await asyncio.sleep(3)
+                button.set_sensitive(True)
+
+        self.scan_task = asyncio.create_task(run_scan())
 
     def build_trusted_page(self):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
@@ -249,9 +318,9 @@ class DirectShareApp(Adw.Application):
         self.stack.set_visible_child_name(current_page)
 
     def build_widgets(self):
-        header = Adw.HeaderBar()
+        self.header = Adw.HeaderBar()
         self.view = Adw.ToolbarView()
-        self.stack = Adw.ViewStack(vexpand=True)
+        self.stack = Adw.ViewStack(enable_transitions=True, vexpand=True)
 
         main_page = self.build_main_page()
         trusted_page = self.build_trusted_page()
@@ -281,12 +350,12 @@ class DirectShareApp(Adw.Application):
         title_box.append(self.window_title)
         title_box.append(self.top_switcher)
 
-        header.set_title_widget(title_box)
-        header.pack_end(about_button)
+        self.header.set_title_widget(title_box)
+        self.header.pack_end(about_button)
 
         self.switcher = Adw.ViewSwitcherBar(stack=self.stack)
 
-        self.view.add_top_bar(header)
+        self.view.add_top_bar(self.header)
         self.view.add_bottom_bar(self.switcher)
         self.view.set_content(self.stack)
 
