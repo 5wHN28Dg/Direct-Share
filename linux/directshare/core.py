@@ -31,11 +31,11 @@ class CoreApp:
     @classmethod
     async def create(cls, backend: BackendInterface):
         instance = cls(backend)
-        await instance.backend.initialize()
 
         instance.backend.on_peer_added(instance.on_peer_added)
         instance.backend.on_peer_removed(instance.on_peer_removed)
 
+        await instance.backend.initialize()
         await instance.update_peers_list()
         return instance
 
@@ -47,6 +47,8 @@ class CoreApp:
 
     def on_peer_added(self, peer):
         self.peers.append(peer)
+        print(f"Peer added: {peer}")
+        print(self.peers)
 
     def on_peer_removed(self, peer):
         self.peers = [p for p in self.peers if p != peer]

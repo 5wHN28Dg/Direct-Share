@@ -15,8 +15,8 @@ class WifiDirectBackend(BackendInterface):
     async def initialize(self):
         self.nm = await NMClient.create()
 
-        self.nm.on_peer_added(self.on_peer_added)
-        self.nm.on_peer_removed(self.on_peer_removed)
+        self.nm.on_peer_added(self._handle_nm_peer_added)
+        self.nm.on_peer_removed(self._handle_nm_peer_removed)
 
     async def find_peers(self):
         await self.nm.find_peers()
