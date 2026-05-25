@@ -28,6 +28,9 @@ class CoreApp:
         self.trusted_peers = []
         self.active_transfers = {}
 
+        self._peer_added_callbacks = []
+        self._peer_removed_callbacks = []
+
     @classmethod
     async def create(cls, backend: BackendInterface):
         instance = cls(backend)
@@ -50,5 +53,17 @@ class CoreApp:
         print(f"Peer added: {peer}")
         print(self.peers)
 
+        for callback in self._peer_added_callbacks:
+            callback(peer)
+
     def on_peer_removed(self, peer):
         self.peers = [p for p in self.peers if p != peer]
+
+        for callback in self._peer_removed_callbacks:
+            callback(peer)
+
+    def add_peer_added_callback(self, callback):
+        self._peer_added_callbacks.append(callback)
+
+    def add_peer_removed_callback(self, callback):
+        self._peer_removed_callbacks.append(callback)

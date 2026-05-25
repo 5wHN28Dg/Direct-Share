@@ -42,11 +42,14 @@ class DirectShareApp(Adw.Application):
     def __init__(self, application_id: str):
         super().__init__(application_id=application_id)
         self.core = None
+        self.peer_cards = {}
         self.css_provider = None
         self.connect("activate", self.on_activate)
 
     def set_core(self, core):
         self.core = core
+        self.core.add_peer_added_callback(self.add_peer_card)
+        self.core.add_peer_removed_callback(self.remove_peer_card)
 
     def build_main_page(self):
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
@@ -54,7 +57,7 @@ class DirectShareApp(Adw.Application):
         scroll_win = Gtk.ScrolledWindow()
         scroll_win.set_size_request(-1, 250)
 
-        flow_box = Gtk.FlowBox(
+        self.peers_flow_box = Gtk.FlowBox(
             orientation=Gtk.Orientation.HORIZONTAL,
             column_spacing=12,
             row_spacing=12,
@@ -62,14 +65,8 @@ class DirectShareApp(Adw.Application):
             hexpand=True,
             vexpand=True,
         )
-        box = Gtk.FlowBoxChild(
-            halign=Gtk.Align.CENTER,
-            valign=Gtk.Align.START,
-            hexpand=True,
-        )
 
-        flow_box.insert(box, -1)
-        scroll_win.set_child(flow_box)
+        scroll_win.set_child(self.peers_flow_box)
 
         search_button = Gtk.Button(
             icon_name="edit-find-symbolic",
@@ -95,6 +92,50 @@ class DirectShareApp(Adw.Application):
         main_box.append(files_stack_switcher)
         main_box.append(files_stack)
         return main_box
+
+    def add_peer_card(self, peer):
+        peer_key = str(peer)
+
+        if peer_key in self.peer_cards:
+            return
+
+        card = Adw.Bin(
+            css_classes=["card"],
+            margin_top=6,
+            margin_bottom=6,
+            margin_start=6,
+            margin_end=6,
+        )
+
+        box = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=6,
+            margin_top=12,
+            margin_bottom=12,
+            margin_start=12,
+            margin_end=12,
+        )
+
+        icon = Gtk.Image(icon_name="computer-symbolic", pixel_size=48)
+        label = Gtk.Label(label=peer_key, wrap=True)
+
+        box.append(icon)
+        box.append(label)
+
+        card.set_child(box)
+
+        child = Gtk.FlowBoxChild()
+        child.set_child(card)
+
+        self.peer_cards[peer_key] = child
+        self.peers_flow_box.insert(child, -1)
+
+    def remove_peer_card(self, peer):
+        peer_key = str(peer)
+        child = self.peer_cards.pop(peer_key, None)
+
+        if child is not None:
+            self.peers_flow_box.remove(child)
 
     def on_search_clicked(self, button):
         if self.core is None:
