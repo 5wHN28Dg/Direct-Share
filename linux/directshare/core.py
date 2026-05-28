@@ -59,9 +59,6 @@ class CoreApp:
         for callback in self._peer_added_callbacks:
             callback(peer)
 
-        print(f"Peer added: {peer}")
-        print(self.peers)
-
     def on_peer_removed(self, peer_path):
         self.peers = [peer for peer in self.peers if peer["path"] != peer_path]
 
