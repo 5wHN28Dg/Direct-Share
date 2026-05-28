@@ -100,7 +100,8 @@ class NMClient:
         return {k: v.value for k, v in peer_properties.items()}
 
     async def get_peers(self):
-        return await next(iter(self.wifi_p2p_devices.values())).get_peers()
+        peer_paths = await next(iter(self.wifi_p2p_devices.values())).get_peers()
+        return await asyncio.gather(*[self.get_peer_info(path) for path in peer_paths])
 
     async def connect_to_peer(self, peer_path):
         """Asynchronously initiates a Wi-Fi P2P connection to a selected peer."""
