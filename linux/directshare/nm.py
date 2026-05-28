@@ -83,6 +83,22 @@ class NMClient:
     def on_peer_removed(self, callback):
         next(iter(self.wifi_p2p_devices.values())).on_peer_removed(callback)
 
+    async def get_peer_info(self, peer_path):
+        peer_obj = self.bus.get_proxy_object(
+            "org.freedesktop.NetworkManager",
+            peer_path,
+            await self.bus.introspect("org.freedesktop.NetworkManager", peer_path),
+        )
+        peer_properties_interface = peer_obj.get_interface(
+            "org.freedesktop.DBus.Properties"
+        )
+        peer_properties: dict[
+            str, Variant
+        ] = await peer_properties_interface.call_get_all(
+            "org.freedesktop.NetworkManager.WifiP2PPeer"
+        )
+        return {k: v.value for k, v in peer_properties.items()}
+
     async def get_peers(self):
         return await next(iter(self.wifi_p2p_devices.values())).get_peers()
 

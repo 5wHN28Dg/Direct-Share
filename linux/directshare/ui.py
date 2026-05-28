@@ -54,16 +54,17 @@ class DirectShareApp(Adw.Application):
     def build_main_page(self):
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
 
-        scroll_win = Gtk.ScrolledWindow()
-        scroll_win.set_size_request(-1, 250)
+        scroll_win = Gtk.ScrolledWindow(
+            vscrollbar_policy=Gtk.PolicyType.NEVER,
+            min_content_height=72,
+            max_content_height=72,
+        )
 
         self.peers_flow_box = Gtk.FlowBox(
             orientation=Gtk.Orientation.HORIZONTAL,
-            column_spacing=12,
-            row_spacing=12,
-            homogeneous=False,
+            column_spacing=6,
+            row_spacing=6,
             hexpand=True,
-            vexpand=True,
         )
 
         scroll_win.set_child(self.peers_flow_box)
@@ -76,7 +77,7 @@ class DirectShareApp(Adw.Application):
 
         self.header.pack_start(search_button)
 
-        files_stack = Adw.ViewStack(enable_transitions=True, vexpand=True)
+        files_stack = Adw.ViewStack(enable_transitions=True)
 
         selected_files_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
         queue_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
@@ -94,30 +95,31 @@ class DirectShareApp(Adw.Application):
         return main_box
 
     def add_peer_card(self, peer):
-        peer_key = str(peer)
+        peer_key = peer["path"]
+        peer_label = peer.get("Name", peer["HwAddress"])
 
         if peer_key in self.peer_cards:
             return
 
         card = Adw.Bin(
             css_classes=["card"],
-            margin_top=6,
-            margin_bottom=6,
-            margin_start=6,
-            margin_end=6,
+            margin_top=4,
+            margin_bottom=4,
+            margin_start=4,
+            margin_end=4,
         )
 
         box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=6,
-            margin_top=12,
-            margin_bottom=12,
-            margin_start=12,
-            margin_end=12,
+            margin_top=8,
+            margin_bottom=8,
+            margin_start=8,
+            margin_end=8,
         )
 
-        icon = Gtk.Image(icon_name="computer-symbolic", pixel_size=48)
-        label = Gtk.Label(label=peer_key, wrap=True)
+        icon = Gtk.Image(icon_name="computer-symbolic", pixel_size=36)
+        label = Gtk.Label(label=peer_label, wrap=True)
 
         box.append(icon)
         box.append(label)
@@ -130,9 +132,8 @@ class DirectShareApp(Adw.Application):
         self.peer_cards[peer_key] = child
         self.peers_flow_box.insert(child, -1)
 
-    def remove_peer_card(self, peer):
-        peer_key = str(peer)
-        child = self.peer_cards.pop(peer_key, None)
+    def remove_peer_card(self, peer_path):
+        child = self.peer_cards.pop(peer_path, None)
 
         if child is not None:
             self.peers_flow_box.remove(child)

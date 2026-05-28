@@ -49,18 +49,24 @@ class CoreApp:
         self.peers = await self.backend.get_peers()
 
     def on_peer_added(self, peer):
+        peer_path = peer["path"]
+
+        if any(existing["path"] == peer_path for existing in self.peers):
+            return
+
         self.peers.append(peer)
-        print(f"Peer added: {peer}")
-        print(self.peers)
 
         for callback in self._peer_added_callbacks:
             callback(peer)
 
-    def on_peer_removed(self, peer):
-        self.peers = [p for p in self.peers if p != peer]
+        print(f"Peer added: {peer}")
+        print(self.peers)
+
+    def on_peer_removed(self, peer_path):
+        self.peers = [peer for peer in self.peers if peer["path"] != peer_path]
 
         for callback in self._peer_removed_callbacks:
-            callback(peer)
+            callback(peer_path)
 
     def add_peer_added_callback(self, callback):
         self._peer_added_callbacks.append(callback)
