@@ -104,7 +104,6 @@ class NMClient:
         return await asyncio.gather(*[self.get_peer_info(path) for path in peer_paths])
 
     async def connect_to_peer(self, peer_path):
-        """Asynchronously initiates a Wi-Fi P2P connection to a selected peer."""
         # For AddAndActivateConnection2, we need to create a transient connection
         # profile. This dictionary defines the new connection.
         connection_settings = {

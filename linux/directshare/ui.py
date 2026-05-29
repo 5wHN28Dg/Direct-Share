@@ -120,14 +120,17 @@ class DirectShareApp(Adw.Application):
 
         icon = Gtk.Image(icon_name="computer-symbolic", pixel_size=36)
         label = Gtk.Label(label=peer_label, wrap=True)
+        signal_strength = Gtk.Label(
+            label=_(f"{peer['Strength']}%"), halign=Gtk.Align.END
+        )
 
         box.append(icon)
         box.append(label)
+        box.append(signal_strength)
 
         card.set_child(box)
 
-        child = Gtk.FlowBoxChild()
-        child.set_child(card)
+        child = Gtk.FlowBoxChild(child=card)
 
         self.peer_cards[peer_key] = child
         self.peers_flow_box.insert(child, -1)
