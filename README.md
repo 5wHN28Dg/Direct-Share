@@ -2,8 +2,6 @@
 
 Fast local file sharing between **Android and Linux** using **Wi-Fi Direct (P2P)**.
 
-![pre-alpha demo_9-2-2026](./pre-alpha_demo_9-2-2026.gif)
-
 > ⚠️ **Project status: Pre-Alpha**
 > This project is under active early development. Many core features are missing or incomplete.
 > Expect breakage and unfinished UX.
@@ -28,12 +26,12 @@ If you need something specific, feel free to open a PR and implement it.
 
 Donations are appreciated but do not grant influence over the project.
 
-This project is a personal tool first, public software second.
+All of this is to say that this project is a personal tool first, public software second.
 
 
 ## Why this exists
 
-File sharing between Android and Linux is still unnecessarily annoying.
+Wireless file sharing between Android and Linux is still unnecessarily slow, half-baked, and unintuitive.
 
 Direct-Share is an attempt to build a file transfer tool that makes local file transfer more seamless than:
 - Android ↔ Android (Nearby Share / Quick Share)
@@ -56,7 +54,7 @@ Direct-Share is an attempt to build a file transfer tool that makes local file t
 ## Current status (what works / what doesn't)
 
 ### Connection
-- [x] Linux → Android *(via Android built-in Wi-Fi Direct settings)*
+- [ ] Linux → Android *(via Android built-in Wi-Fi Direct settings)*
 - [ ] Linux ↔ Linux *(not working yet)*
 - [ ] Android ↔ Android *(not implemented yet)*
 
@@ -76,7 +74,7 @@ Direct-Share is an attempt to build a file transfer tool that makes local file t
 
 ```bash
 git clone https://github.com/5wHN28Dg/direct-share.git
-cd direct-share
+cd Direct-Share/linux
 ```
 2. create a virtual environment:
 
