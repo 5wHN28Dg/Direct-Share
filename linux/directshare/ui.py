@@ -54,12 +54,6 @@ class DirectShareApp(Adw.Application):
     def build_main_page(self):
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
 
-        scroll_win = Gtk.ScrolledWindow(
-            vscrollbar_policy=Gtk.PolicyType.NEVER,
-            min_content_height=72,
-            max_content_height=72,
-        )
-
         self.peers_flow_box = Gtk.FlowBox(
             orientation=Gtk.Orientation.HORIZONTAL,
             column_spacing=6,
@@ -67,7 +61,12 @@ class DirectShareApp(Adw.Application):
             hexpand=True,
         )
 
-        scroll_win.set_child(self.peers_flow_box)
+        scroll_win = Gtk.ScrolledWindow(
+            child=self.peers_flow_box,
+            vscrollbar_policy=Gtk.PolicyType.NEVER,
+            min_content_height=72,
+            max_content_height=72,
+        )
 
         search_button = Gtk.Button(
             icon_name="edit-find-symbolic",
@@ -101,14 +100,6 @@ class DirectShareApp(Adw.Application):
         if peer_key in self.peer_cards:
             return
 
-        card = Adw.Bin(
-            css_classes=["card"],
-            margin_top=4,
-            margin_bottom=4,
-            margin_start=4,
-            margin_end=4,
-        )
-
         box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=6,
@@ -128,7 +119,14 @@ class DirectShareApp(Adw.Application):
         box.append(label)
         box.append(signal_strength)
 
-        card.set_child(box)
+        card = Adw.Bin(
+            child=box,
+            css_classes=["card"],
+            margin_top=4,
+            margin_bottom=4,
+            margin_start=4,
+            margin_end=4,
+        )
 
         child = Gtk.FlowBoxChild(child=card)
 
@@ -205,10 +203,11 @@ class DirectShareApp(Adw.Application):
         theme_row = Adw.ActionRow(title=_("Theme"))
         theme_row.add_suffix(theme_toggle)
 
-        self.language_row = Adw.ComboRow(title=_("Language"))
         self.languages = i18n.get_available_languages()
         self.lang_names = list(self.languages.keys())
-        self.language_row.set_model(Gtk.StringList.new(self.lang_names))
+        self.language_row = Adw.ComboRow(
+            title=_("Language"), model=Gtk.StringList.new(self.lang_names)
+        )
         for index, lang in enumerate(self.languages.values()):
             if os.getenv("LANGUAGE", os.getenv("LANG", "")).startswith(lang):
                 self.language_row.set_selected(index)
