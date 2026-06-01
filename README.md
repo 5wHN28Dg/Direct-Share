@@ -54,7 +54,7 @@ Direct-Share is an attempt to build a file transfer tool that makes local file t
 ## Current status (what works / what doesn't)
 
 ### Connection
-- [ ] Linux → Android *(via Android built-in Wi-Fi Direct settings)*
+- [x] Linux → Android *(in the deprecated version via Android built-in Wi-Fi Direct settings)*
 - [ ] Linux ↔ Linux *(not working yet)*
 - [ ] Android ↔ Android *(not implemented yet)*
 
