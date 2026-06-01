@@ -59,6 +59,7 @@ class DirectShareApp(Adw.Application):
             column_spacing=6,
             row_spacing=6,
             hexpand=True,
+            selection_mode=Gtk.SelectionMode.MULTIPLE,
         )
 
         scroll_win = Gtk.ScrolledWindow(
@@ -130,6 +131,10 @@ class DirectShareApp(Adw.Application):
 
         child = Gtk.FlowBoxChild(child=card)
 
+        gesture = Gtk.GestureClick(button=3)
+        gesture.connect("pressed", self.on_peer_card_right_clicked, child, peer)
+        child.add_controller(gesture)
+
         self.peer_cards[peer_key] = child
         self.peers_flow_box.insert(child, -1)
 
@@ -138,6 +143,9 @@ class DirectShareApp(Adw.Application):
 
         if child is not None:
             self.peers_flow_box.remove(child)
+
+    def on_peer_card_right_clicked(self, gesture, n_press, x, y, child, peer):
+        pass
 
     def on_search_clicked(self, button):
         if self.core is None:
