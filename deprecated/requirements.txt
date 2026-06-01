@@ -1,0 +1,2 @@
+dbus_fast >= 4.0.0
+dearpygui >= 2.1.1

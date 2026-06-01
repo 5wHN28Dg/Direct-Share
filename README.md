@@ -95,6 +95,8 @@ pip install -e . # this installs the project in editable mode
 python3 -m directshare
 ```
 
+> **Note:** you can find the deprecated Dear PyGui version in the `deprecated/` directory with a demo gif.
+
 ## Roadmap (planned features)
 
 - Reliable peer discovery
