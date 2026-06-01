@@ -17,7 +17,9 @@ Depends:
  ${misc:Depends},
  python3-gi,
  python3-cairo,
- gir1.2-gtk-3.0,
+ python3-dbus-fast,
+ gir1.2-gtk-4.0,
+ gir1.2-adw-1,
  # add runtime system deps you actually need:
  # networkmanager, wpasupplicant, polkit, etc (depending on your design)
 Description: Direct-Share for Linux
