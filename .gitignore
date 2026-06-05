@@ -1,2 +1,4 @@
 think.md
 temp.py
+__pycache__/
+*.mo

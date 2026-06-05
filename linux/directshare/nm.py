@@ -1,0 +1,143 @@
+# SPDX-FileCopyrightText: 2026 5wHN28Dg
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+import asyncio
+import uuid
+
+from dbus_fast import BusType, Variant
+from dbus_fast.aio import MessageBus
+
+
+class NMClient:
+    def __init__(self, bus: MessageBus):
+        self.bus = bus
+        self.nm_interface = None
+        self.device_obj = None
+        self.wifi_p2p_device = None
+
+    @classmethod
+    async def create(cls):
+        bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
+        instance = cls(bus)
+
+        login1 = instance.bus.get_proxy_object(
+            "org.freedesktop.login1",
+            "/org/freedesktop/login1",
+            await instance.bus.introspect(
+                "org.freedesktop.login1", "/org/freedesktop/login1"
+            ),
+        )
+        manager = login1.get_interface("org.freedesktop.login1.Manager")
+        manager.on_prepare_for_sleep(instance._on_prepare_for_sleep)
+
+        introspection = await bus.introspect(
+            "org.freedesktop.NetworkManager", "/org/freedesktop/NetworkManager"
+        )
+
+        nm_service_obj = instance.bus.get_proxy_object(
+            "org.freedesktop.NetworkManager",
+            "/org/freedesktop/NetworkManager",
+            introspection,
+        )
+
+        instance.nm_interface = nm_service_obj.get_interface(
+            "org.freedesktop.NetworkManager"
+        )
+        await instance.discover_wifi_p2p_device()
+        return instance
+
+    async def discover_wifi_p2p_device(self):
+        devices = await self.nm_interface.get_devices()
+        self.wifi_p2p_devices = {}
+        for device in devices:
+            self.device_obj = self.bus.get_proxy_object(
+                "org.freedesktop.NetworkManager",
+                device,
+                await self.bus.introspect("org.freedesktop.NetworkManager", device),
+            )
+            device_interface = self.device_obj.get_interface(
+                "org.freedesktop.NetworkManager.Device"
+            )
+            if await device_interface.get_device_type() == 30:
+                self.wifi_p2p_devices[device] = self.device_obj.get_interface(
+                    "org.freedesktop.NetworkManager.Device.WifiP2P"
+                )
+
+        self.wifi_p2p_device = (
+            next(iter(self.wifi_p2p_devices.keys()))
+            if len(self.wifi_p2p_devices) >= 1
+            else None
+        )
+
+    async def _on_prepare_for_sleep(self, sleeping: bool):
+        if not sleeping:  # waking up
+            await asyncio.sleep(2)
+            await self.discover_wifi_p2p_device()
+
+    async def find_peers(self):
+        await next(iter(self.wifi_p2p_devices.values())).call_start_find({})
+
+    def on_peer_added(self, callback):
+        next(iter(self.wifi_p2p_devices.values())).on_peer_added(callback)
+
+    def on_peer_removed(self, callback):
+        next(iter(self.wifi_p2p_devices.values())).on_peer_removed(callback)
+
+    async def get_peer_info(self, peer_path):
+        peer_obj = self.bus.get_proxy_object(
+            "org.freedesktop.NetworkManager",
+            peer_path,
+            await self.bus.introspect("org.freedesktop.NetworkManager", peer_path),
+        )
+        peer_properties_interface = peer_obj.get_interface(
+            "org.freedesktop.DBus.Properties"
+        )
+        peer_properties: dict[
+            str, Variant
+        ] = await peer_properties_interface.call_get_all(
+            "org.freedesktop.NetworkManager.WifiP2PPeer"
+        )
+        return {k: v.value for k, v in peer_properties.items()}
+
+    async def get_peers(self):
+        peer_paths = await next(iter(self.wifi_p2p_devices.values())).get_peers()
+        return await asyncio.gather(*[self.get_peer_info(path) for path in peer_paths])
+
+    async def connect_to_peer(self, peer_path):
+        # For AddAndActivateConnection2, we need to create a transient connection
+        # profile. This dictionary defines the new connection.
+        connection_settings = {
+            "connection": {
+                "id": Variant("s", "Direct Share P2P"),
+                "uuid": Variant("s", str(uuid.uuid4())),
+                "type": Variant("s", "wifi-p2p"),
+            }
+        }
+
+        try:
+            print(f"Attempting to connect to peer: {peer_path}")
+            # The call requires the connection settings, the object path of the
+            # P2P-capable device, the object path of the peer, and any options.
+            (
+                path,
+                active_connection,
+                result,
+            ) = await self.nm_interface.call_add_and_activate_connection2(
+                connection_settings,
+                self.device_obj.path,
+                peer_path,
+                {"persist": Variant("s", "volatile")},
+            )
+            print("Successfully initiated connection.")
+            print(f"  Connection Path: {path}")
+            print(f"  Active Connection: {active_connection}")
+            print(f"  Result: {result}")
+        except Exception as e:
+            # Catch and print any exceptions during the connection attempt.
+            print(f"Error connecting to peer: {e}")
+
+    # Ensure a peer is selected before trying to connect.
+    # if peer:
+    #   asyncio.run_coroutine_threadsafe(connect_to_peer(peer), async_loop)
+    # else:
+    #   print("No peer selected.")
