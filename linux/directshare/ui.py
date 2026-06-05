@@ -113,7 +113,7 @@ class DirectShareApp(Adw.Application):
         icon = Gtk.Image(icon_name="computer-symbolic", pixel_size=36)
         label = Gtk.Label(label=peer_label, wrap=True)
         signal_strength = Gtk.Label(
-            label=_(f"{peer['Strength']}%"), halign=Gtk.Align.END
+            label=f"{peer['Strength']}%", halign=Gtk.Align.END
         )
 
         box.append(icon)
