@@ -1,11 +1,19 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "direct-share"
 version = "0.0.1"
+requires-python = ">=3.14"
 dependencies = [
     "dbus-fast>=4.0.0",
     "pycairo>=1.29.0",
     "pygobject>=3.54.5",
 ]
+
+[tool.setuptools]
+packages = ["directshare"]
 
 [dependency-groups]
 dev = [
