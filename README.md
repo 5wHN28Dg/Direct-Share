@@ -79,14 +79,14 @@ cd Direct-Share/linux
 2. create a virtual environment:
 
 ```bash
-python3 -m venv .venv
+uv venv
 source .venv/bin/activate
 ```
 
-3. Install the project:
+3. Prepare the environment:
 
 ```bash
-pip install -e . # this installs the project in editable mode
+uv lock && uv sync
 ```
 
 4. run the application:
