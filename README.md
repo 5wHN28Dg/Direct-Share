@@ -66,6 +66,8 @@ Direct-Share is an attempt to build a file transfer tool that makes local file t
 - [x] ~~UI/UX is still rough and will change significantly~~
 - [ ] UI/UX direction is now defined and stable, with ongoing missing pieces being added.
 
+for detailed information on what works, what is fixed, what's being worked on, etc... see the [project board](https://github.com/users/5wHN28Dg/projects/2).
+
 ## Development
 
 > This section is for developers who want to run the app from source.
