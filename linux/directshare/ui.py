@@ -35,7 +35,7 @@ from . import i18n
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
-from gi.repository import Adw, Gtk
+from gi.repository import Adw, Gdk, Gtk
 
 
 class DirectShareApp(Adw.Application):
@@ -112,9 +112,7 @@ class DirectShareApp(Adw.Application):
 
         icon = Gtk.Image(icon_name="computer-symbolic", pixel_size=36)
         label = Gtk.Label(label=peer_label, wrap=True)
-        signal_strength = Gtk.Label(
-            label=f"{peer['Strength']}%", halign=Gtk.Align.END
-        )
+        signal_strength = Gtk.Label(label=f"{peer['Strength']}%", halign=Gtk.Align.END)
 
         box.append(icon)
         box.append(label)
@@ -145,7 +143,9 @@ class DirectShareApp(Adw.Application):
             self.peers_flow_box.remove(child)
 
     def on_peer_card_right_clicked(self, gesture, n_press, x, y, child, peer):
-        pass
+        popover = Gtk.Popover()
+        popover.set_parent(child)
+        popover.popup()
 
     def on_search_clicked(self, button):
         if self.core is None:
