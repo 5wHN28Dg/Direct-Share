@@ -94,7 +94,7 @@ class DirectShareApp(Adw.Application):
         main_box.append(files_stack)
         return main_box
 
-    def add_peer_card(self, peer):
+    def add_peer_card(self, peer: dict[str, str | int]):
         peer_key = peer["path"]
         peer_label = peer.get("Name", peer["HwAddress"])
 
@@ -154,12 +154,24 @@ class DirectShareApp(Adw.Application):
         trust_device_button = Gtk.Button(label=_("Trust this Device"), margin_bottom=6)
         device_info_button = Gtk.Button(label=_("Device Info"))
 
+        device_info_button.connect(
+            "clicked", lambda _: self.build_device_info_dialog(peer)
+        )
+
         box.append(select_button)
         box.append(trust_device_button)
         box.append(device_info_button)
 
-        popover = Gtk.Popover(child=box)
-        return popover
+        return Gtk.Popover(child=box)
+
+    def build_device_info_dialog(self, peer):
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        dialog_header = Adw.HeaderBar()
+
+        box.append(dialog_header)
+
+        device_info_dialog = Adw.Dialog(title="Peer Info", child=box)
+        device_info_dialog.present(self.win)
 
     def on_search_clicked(self, button):
         if self.core is None:
