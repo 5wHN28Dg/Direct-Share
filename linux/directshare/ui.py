@@ -143,9 +143,23 @@ class DirectShareApp(Adw.Application):
             self.peers_flow_box.remove(child)
 
     def on_peer_card_right_clicked(self, gesture, n_press, x, y, child, peer):
-        popover = Gtk.Popover()
+        popover = self.build_context_menu(peer)
         popover.set_parent(child)
         popover.popup()
+
+    def build_context_menu(self, peer):
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+        select_button = Gtk.Button(label=_("Select"), margin_bottom=6)
+        trust_device_button = Gtk.Button(label=_("Trust this Device"), margin_bottom=6)
+        device_info_button = Gtk.Button(label=_("Device Info"))
+
+        box.append(select_button)
+        box.append(trust_device_button)
+        box.append(device_info_button)
+
+        popover = Gtk.Popover(child=box)
+        return popover
 
     def on_search_clicked(self, button):
         if self.core is None:
