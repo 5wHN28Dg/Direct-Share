@@ -178,7 +178,7 @@ class DirectShareApp(Adw.Application):
             except Exception as e:
                 print(f"CRITICAL: Failed to start scan: {e}")
             finally:
-                await asyncio.sleep(3)
+                await asyncio.sleep(30)
                 button.set_sensitive(True)
 
         self.scan_task = asyncio.create_task(run_scan())
