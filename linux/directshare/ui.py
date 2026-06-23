@@ -169,7 +169,10 @@ class DirectShareApp(Adw.Application):
         group = Adw.PreferencesGroup()
 
         for k, v in peer.items():
-            group.add(Adw.ActionRow(title=f"{k}:", subtitle=str(v)))
+            if len(str(v)) > 0:
+                group.add(
+                    Adw.ActionRow(title=k, subtitle=str(v), subtitle_selectable=True)
+                )
 
         box.append(Adw.HeaderBar())
         box.append(group)
