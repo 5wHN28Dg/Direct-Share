@@ -169,7 +169,7 @@ class DirectShareApp(Adw.Application):
         group = Adw.PreferencesGroup()
 
         for k, v in peer.items():
-            group.add(Adw.ActionRow(title=f"{k}:", child=Gtk.Label(label=str(v))))
+            group.add(Adw.ActionRow(title=f"{k}:", subtitle=str(v)))
 
         box.append(Adw.HeaderBar())
         box.append(group)
