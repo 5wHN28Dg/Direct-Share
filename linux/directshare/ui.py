@@ -164,11 +164,15 @@ class DirectShareApp(Adw.Application):
 
         return Gtk.Popover(child=box)
 
-    def build_device_info_dialog(self, peer):
+    def build_device_info_dialog(self, peer: dict[str, str | int]):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        dialog_header = Adw.HeaderBar()
+        group = Adw.PreferencesGroup()
 
-        box.append(dialog_header)
+        for k, v in peer.items():
+            group.add(Adw.ActionRow(title=f"{k}:", child=Gtk.Label(label=str(v))))
+
+        box.append(Adw.HeaderBar())
+        box.append(group)
 
         device_info_dialog = Adw.Dialog(title="Peer Info", child=box)
         device_info_dialog.present(self.win)
