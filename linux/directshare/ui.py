@@ -183,7 +183,7 @@ class DirectShareApp(Adw.Application):
         c = r = 0
         w = h = 1
         for k, v in peer.items():
-            if len(k) > 0 and k not in ["LastSeen", "Strength", "WfdIEs"]:
+            if len(k) > 0 and k not in ["LastSeen", "Strength", "WfdIEs", "path"]:
                 k = (
                     "Model Number"
                     if k == "ModelNumber"
