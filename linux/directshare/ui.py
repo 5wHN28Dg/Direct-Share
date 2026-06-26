@@ -112,7 +112,11 @@ class DirectShareApp(Adw.Application):
 
         icon = Gtk.Image(icon_name="computer-symbolic", pixel_size=36)
         label = Gtk.Label(label=peer_label, wrap=True)
-        signal_strength = Gtk.Label(label=f"{peer['Strength']}%", halign=Gtk.Align.END)
+        signal_strength = Gtk.Label(
+            label=f"{peer['Strength']}%",
+            halign=Gtk.Align.END,
+            tooltip_text="Signal Strength",
+        )
 
         box.append(icon)
         box.append(label)
@@ -164,18 +168,39 @@ class DirectShareApp(Adw.Application):
 
         return Gtk.Popover(child=box)
 
-    def build_device_info_dialog(self, peer: dict[str, str | int]):
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        group = Adw.PreferencesGroup()
+    def build_device_info_dialog(self, peer):
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, vexpand=True, hexpand=True)
+        inner_grid = Gtk.Grid(vexpand=True, hexpand=True)
 
+        flags = {
+            0: "Peer has no special capabilities",
+            1: "Peer requires authentication and encryption (usually means WEP)",
+            2: "Peer supports some WPS method",
+            4: "Peer supports push-button WPS",
+            8: "Peer supports PIN-based WPS",
+        }
+
+        c = r = 0
+        w = h = 1
         for k, v in peer.items():
-            if len(str(v)) > 0:
-                group.add(
-                    Adw.ActionRow(title=k, subtitle=str(v), subtitle_selectable=True)
+            if len(k) > 0 and k not in ["LastSeen", "Strength", "WfdIEs"]:
+                k = (
+                    "Model Number"
+                    if k == "ModelNumber"
+                    else "HW Address"
+                    if k == "HwAddress"
+                    else k
                 )
+                v = flags[v] if k == "Flags" else v
+
+                inner_grid.attach(Gtk.Label(label=k), c, r, w, h)
+                inner_grid.attach(Gtk.Label(label=str(v), selectable=True), c, r, w, h)
+
+                c = 1 if r == 3 else c
+                r = +1
 
         box.append(Adw.HeaderBar())
-        box.append(group)
+        box.append(inner_grid)
 
         device_info_dialog = Adw.Dialog(title="Peer Info", child=box)
         device_info_dialog.present(self.win)
