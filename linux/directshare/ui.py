@@ -171,7 +171,7 @@ class DirectShareApp(Adw.Application):
     def build_device_info_dialog(self, peer):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         inner_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        left_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, hexpand=True)
+        left_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         right_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
 
         flags = {
