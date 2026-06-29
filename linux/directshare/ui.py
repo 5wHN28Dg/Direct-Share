@@ -169,8 +169,10 @@ class DirectShareApp(Adw.Application):
         return Gtk.Popover(child=box)
 
     def build_device_info_dialog(self, peer):
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, vexpand=True, hexpand=True)
-        inner_grid = Gtk.Grid(vexpand=True, hexpand=True)
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        inner_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        left_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, hexpand=True)
+        right_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
 
         flags = {
             0: "Peer has no special capabilities",
@@ -180,10 +182,9 @@ class DirectShareApp(Adw.Application):
             8: "Peer supports PIN-based WPS",
         }
 
-        c = r = 0
-        w = h = 1
+        counter = 0
         for k, v in peer.items():
-            if len(k) > 0 and k not in ["LastSeen", "Strength", "WfdIEs", "path"]:
+            if len(str(v)) > 0 and k not in ["LastSeen", "Strength", "WfdIEs", "path"]:
                 k = (
                     "Model Number"
                     if k == "ModelNumber"
@@ -193,14 +194,20 @@ class DirectShareApp(Adw.Application):
                 )
                 v = flags[v] if k == "Flags" else v
 
-                inner_grid.attach(Gtk.Label(label=k), c, r, w, h)
-                inner_grid.attach(Gtk.Label(label=str(v), selectable=True), c, r, w, h)
-
-                c = 1 if r == 3 else c
-                r = +1
+                left_box.append(
+                    Gtk.Label(label=k)
+                ) if counter < 4 else right_box.append(Gtk.Label(label=k))
+                left_box.append(
+                    Gtk.Label(label=str(v), selectable=True)
+                ) if counter < 4 else right_box.append(
+                    Gtk.Label(label=str(v), selectable=True)
+                )
+                counter += 1
 
         box.append(Adw.HeaderBar())
-        box.append(inner_grid)
+        box.append(inner_box)
+        inner_box.append(left_box)
+        inner_box.append(right_box)
 
         device_info_dialog = Adw.Dialog(title="Peer Info", child=box)
         device_info_dialog.present(self.win)
