@@ -6,6 +6,9 @@ from dbus_fast.aio import MessageBus
 
 
 class WpasBackend:
+    def __init__(self, bus: MessageBus):
+        self.bus = bus
+
     @classmethod
     async def create(cls):
         bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
