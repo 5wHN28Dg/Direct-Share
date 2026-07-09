@@ -13,4 +13,6 @@ class WpasBackend:
     async def create(cls):
         bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
         instance = cls(bus)
+
+        introspection = await bus.introspect("fi.w1.wpa_supplicant", "fi/w1/wpa_supplicant")
         return instance
