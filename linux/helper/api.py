@@ -1,13 +1,13 @@
 # SPDX-FileCopyrightText: 2026 5wHN28Dg
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from dbus_fast.annotations import DBusSignature, DBusBool, DBusByte, DBusInt32, DBusStr
-from dbus_fast.aio import MessageBus
-from dbus_fast.service import ServiceInterface, dbus_method, dbus_property, dbus_signal
-from dbus_fast import Variant, DBusError
-
 import asyncio
 from typing import Annotated
+
+from dbus_fast import DBusError, Variant
+from dbus_fast.aio import MessageBus
+from dbus_fast.annotations import DBusBool, DBusByte, DBusInt32, DBusSignature, DBusStr
+from dbus_fast.service import ServiceInterface, dbus_method, dbus_property, dbus_signal
 
 FrobateReturnDBusType = Annotated[dict[int, str], DBusSignature("a{us}")]
 BazifyBarDBusType = Annotated[tuple[int, int, int], DBusSignature("(iiu)")]
